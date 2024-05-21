@@ -1,10 +1,1 @@
-res://builder.tscn
-res://effect_space.tscn
-res://Scenes/Race/Race.tscn
-res://Scenes/editor.tscn
-res://Scenes/Race/empty_race.tscn
-res://Effect.tscn
-res://option_block.tscn
 res://Scenes/CardBlock/card_block.tscn
-res://Scenes/CardBlock/empty_card_block.tscn
-res://Scenes/DropEffect/drop_effect.tscn
