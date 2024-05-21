@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvoox5g7y0265"]
+
+[ext_resource type="Script" path="res://Scenes/CardBlock/card_block.gd" id="1_xjonm"]
+[ext_resource type="Script" path="res://Scenes/CardBlock/TextureRect.gd" id="2_sb5yp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vqyx3"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 97.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+script = ExtResource("1_xjonm")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="CardBlock" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+script = ExtResource("2_sb5yp")
+
+[node name="Polygon2D" type="Polygon2D" parent="CardBlock"]
+scale = Vector2(1, 0.92)
+color = Color(0.541176, 0.337255, 0.721569, 1)
+antialiased = true
+polygon = PackedVector2Array(7, 0, 163, 0, 173, 12, 164, 25, 86, 25, 8, 26.087, 0, 12)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CardBlock"]
+layout_mode = 2
+alignment = 1
+
+[node name="CardName" type="Label" parent="CardBlock/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Drop card"
+label_settings = SubResource("LabelSettings_vqyx3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Edit" type="Button" parent="CardBlock/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "Edit"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="CardBlock" to="." method="_on_card_block_resized"]
+[connection signal="resized" from="CardBlock/HBoxContainer/CardName" to="." method="_on_label_resized"]
+[connection signal="mouse_entered" from="CardBlock/HBoxContainer/Edit" to="." method="_on_edit_mouse_entered"]
+[connection signal="pressed" from="CardBlock/HBoxContainer/Edit" to="." method="_on_edit_pressed"]

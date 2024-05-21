@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://lxy3ohwu4ed3"]
+
+[ext_resource type="Script" path="res://Scenes/CardBlock/card_block.gd" id="1_qkh6q"]
+[ext_resource type="Script" path="res://Scenes/CardBlock/DropSpace.gd" id="2_pammv"]
+
+[sub_resource type="Gradient" id="Gradient_r3a4c"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.00362319, 1)
+colors = PackedColorArray(0.820573, 0.000583537, 0.83138, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yxsyr"]
+gradient = SubResource("Gradient_r3a4c")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nyfrg"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="EmptyCardBlock" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 23)
+offset_right = 97.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+script = ExtResource("1_qkh6q")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="CardBlock" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 1
+script = ExtResource("2_pammv")
+
+[node name="Card" type="Polygon2D" parent="CardBlock"]
+scale = Vector2(1, 0.92)
+color = Color(0.541176, 0.337255, 0.721569, 1)
+antialiased = true
+polygon = PackedVector2Array(7, 0, 163, 0, 173, 12, 164, 26.087, 8, 26.087, 0, 12)
+
+[node name="Polygon2D" type="Polygon2D" parent="CardBlock"]
+scale = Vector2(1, 0.92)
+color = Color(0.737255, 0.592157, 0.854902, 1)
+antialiased = true
+texture = SubResource("GradientTexture2D_yxsyr")
+polygon = PackedVector2Array(7, 0, 163, 0, 173, 12, 164, 26.087, 8, 26.087, 0, 12)
+
+[node name="CardName" type="Label" parent="CardBlock"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Drop card"
+label_settings = SubResource("LabelSettings_nyfrg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="CardBlock" to="." method="_on_card_block_resized"]

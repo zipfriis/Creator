@@ -1,0 +1,326 @@
+[gd_scene load_steps=5 format=3 uid="uid://buct7apuasip2"]
+
+[ext_resource type="Script" path="res://Editor.gd" id="1_7rfpn"]
+[ext_resource type="PackedScene" uid="uid://lxy3ohwu4ed3" path="res://Scenes/CardBlock/empty_card_block.tscn" id="2_2rt3v"]
+[ext_resource type="PackedScene" uid="uid://dc3acte5sni7x" path="res://Scenes/Race/empty_race.tscn" id="3_s65f4"]
+[ext_resource type="PackedScene" uid="uid://c0g3ogsavo5tf" path="res://effect_space.tscn" id="5_8fmwf"]
+
+[node name="Editor" type="MarginContainer"]
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_7rfpn")
+
+[node name="Card" type="Panel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="General" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Card selection" type="MarginContainer" parent="ScrollContainer/General"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="ScrollContainer/General/Card selection"]
+layout_mode = 2
+
+[node name="CardObjContainer" type="HBoxContainer" parent="ScrollContainer/General/Card selection"]
+layout_mode = 2
+
+[node name="EmptyCardBlock" parent="ScrollContainer/General/Card selection/CardObjContainer" instance=ExtResource("2_2rt3v")]
+layout_mode = 2
+
+[node name="New" type="Button" parent="ScrollContainer/General/Card selection/CardObjContainer"]
+layout_mode = 2
+text = "New"
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/General/Card selection/CardObjContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "new name"
+
+[node name="SetCard" type="Button" parent="ScrollContainer/General/Card selection/CardObjContainer"]
+visible = false
+layout_mode = 2
+text = "Set"
+
+[node name="Back" type="Button" parent="ScrollContainer/General/Card selection/CardObjContainer"]
+visible = false
+layout_mode = 2
+text = "Back"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/General"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/General/HBoxContainer"]
+layout_mode = 2
+text = "Card type: "
+
+[node name="OptionButton" type="OptionButton" parent="ScrollContainer/General/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 3
+popup/item_0/text = "Spell"
+popup/item_0/id = 0
+popup/item_1/text = "Unit"
+popup/item_1/id = 1
+popup/item_2/text = "Nothing"
+popup/item_2/id = 2
+
+[node name="Description" type="HBoxContainer" parent="ScrollContainer/General"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/General/Description"]
+layout_mode = 2
+text = "Description: "
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/General/Description"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description"
+alignment = 1
+
+[node name="EssenceCost" type="HBoxContainer" parent="ScrollContainer/General"]
+layout_mode = 2
+
+[node name="Essence" type="Label" parent="ScrollContainer/General/EssenceCost"]
+layout_mode = 2
+text = "Essence:"
+
+[node name="EssenceCost" type="OptionButton" parent="ScrollContainer/General/EssenceCost"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 11
+popup/item_0/text = "0"
+popup/item_0/id = 0
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+popup/item_3/text = "3"
+popup/item_3/id = 3
+popup/item_4/text = "4"
+popup/item_4/id = 4
+popup/item_5/text = "5"
+popup/item_5/id = 5
+popup/item_6/text = "6"
+popup/item_6/id = 6
+popup/item_7/text = "7"
+popup/item_7/id = 7
+popup/item_8/text = "8"
+popup/item_8/id = 8
+popup/item_9/text = "9"
+popup/item_9/id = 9
+popup/item_10/text = "10"
+popup/item_10/id = 10
+
+[node name="EmptyRace" parent="ScrollContainer/General" instance=ExtResource("3_s65f4")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/General"]
+layout_mode = 2
+
+[node name="SpellContainer" type="VBoxContainer" parent="ScrollContainer/General"]
+visible = false
+layout_mode = 2
+
+[node name="NoneTarget" type="CheckButton" parent="ScrollContainer/General/SpellContainer"]
+layout_mode = 2
+text = "None Targeting Spell"
+
+[node name="Effects" type="Label" parent="ScrollContainer/General/SpellContainer"]
+layout_mode = 2
+text = "Effects:
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/General/SpellContainer"]
+layout_mode = 2
+
+[node name="EffectSpace" parent="ScrollContainer/General/SpellContainer/MarginContainer" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="UnitContainer" type="VBoxContainer" parent="ScrollContainer/General"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+
+[node name="Health" type="Label" parent="ScrollContainer/General/UnitContainer/HBoxContainer"]
+layout_mode = 2
+text = "Health: "
+
+[node name="HealthOption" type="OptionButton" parent="ScrollContainer/General/UnitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 15
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "4"
+popup/item_3/id = 3
+popup/item_4/text = "5"
+popup/item_4/id = 4
+popup/item_5/text = "6"
+popup/item_5/id = 5
+popup/item_6/text = "7"
+popup/item_6/id = 6
+popup/item_7/text = "8"
+popup/item_7/id = 7
+popup/item_8/text = "9"
+popup/item_8/id = 8
+popup/item_9/text = "10"
+popup/item_9/id = 9
+popup/item_10/text = "11"
+popup/item_10/id = 10
+popup/item_11/text = "12"
+popup/item_11/id = 11
+popup/item_12/text = "13"
+popup/item_12/id = 12
+popup/item_13/text = "14"
+popup/item_13/id = 13
+popup/item_14/text = "15"
+popup/item_14/id = 14
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+
+[node name="AttackDamage" type="Label" parent="ScrollContainer/General/UnitContainer/HBoxContainer2"]
+layout_mode = 2
+text = "AttackDamage: "
+
+[node name="AttackDamageOption" type="OptionButton" parent="ScrollContainer/General/UnitContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 16
+popup/item_0/text = "0"
+popup/item_0/id = 0
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+popup/item_3/text = "3"
+popup/item_3/id = 3
+popup/item_4/text = "4"
+popup/item_4/id = 4
+popup/item_5/text = "5"
+popup/item_5/id = 5
+popup/item_6/text = "6"
+popup/item_6/id = 6
+popup/item_7/text = "7"
+popup/item_7/id = 7
+popup/item_8/text = "8"
+popup/item_8/id = 8
+popup/item_9/text = "9"
+popup/item_9/id = 9
+popup/item_10/text = "10"
+popup/item_10/id = 10
+popup/item_11/text = "11"
+popup/item_11/id = 11
+popup/item_12/text = "12"
+popup/item_12/id = 12
+popup/item_13/text = "13"
+popup/item_13/id = 13
+popup/item_14/text = "14"
+popup/item_14/id = 14
+popup/item_15/text = "15"
+popup/item_15/id = 15
+
+[node name="EndOfTurn" type="Label" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+text = "End Of Turn Effects:
+"
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="EndOfTurnSpace" parent="ScrollContainer/General/UnitContainer/MarginContainer" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="WarCry" type="Label" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+text = "War Cry Effects:
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="WarCrySpace" parent="ScrollContainer/General/UnitContainer/MarginContainer2" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="WhileAlive" type="Label" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+text = "While Creature Alive Effects:
+"
+
+[node name="MarginContainer3" type="MarginContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="WhileSpace" parent="ScrollContainer/General/UnitContainer/MarginContainer3" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="UponDeath" type="Label" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+text = "Upon Death Effects:
+"
+
+[node name="MarginContainer4" type="MarginContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="UponDeathSpace" parent="ScrollContainer/General/UnitContainer/MarginContainer4" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="StartOppTurn" type="Label" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+text = "Start Of Your Opponents Turn Effects:
+"
+
+[node name="MarginContainer5" type="MarginContainer" parent="ScrollContainer/General/UnitContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="StartOppSpace" parent="ScrollContainer/General/UnitContainer/MarginContainer5" instance=ExtResource("5_8fmwf")]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Save"
+
+[connection signal="UpdatedCardData" from="ScrollContainer/General/Card selection/CardObjContainer/EmptyCardBlock" to="." method="_on_empty_card_block_updated_card_data"]
+[connection signal="pressed" from="ScrollContainer/General/Card selection/CardObjContainer/New" to="." method="_on_new_pressed"]
+[connection signal="pressed" from="ScrollContainer/General/Card selection/CardObjContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="item_selected" from="ScrollContainer/General/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="text_changed" from="ScrollContainer/General/Description/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="item_selected" from="ScrollContainer/General/EssenceCost/EssenceCost" to="." method="_on_essence_cost_item_selected"]
+[connection signal="NewRaceName" from="ScrollContainer/General/EmptyRace" to="." method="_on_empty_race_new_race_name"]
+[connection signal="NewEffectData" from="ScrollContainer/General/SpellContainer/MarginContainer/EffectSpace" to="." method="_on_effect_space_new_effect_data"]
+[connection signal="item_selected" from="ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption" to="." method="_on_health_option_item_selected"]
+[connection signal="item_selected" from="ScrollContainer/General/UnitContainer/HBoxContainer2/AttackDamageOption" to="." method="_on_attack_damage_option_item_selected"]
+[connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace" to="." method="_on_end_of_turn_space_new_effect_data"]
+[connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer2/WarCrySpace" to="." method="_on_war_cry_space_new_effect_data"]
+[connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer3/WhileSpace" to="." method="_on_while_space_new_effect_data"]
+[connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer4/UponDeathSpace" to="." method="_on_upon_death_space_new_effect_data"]
+[connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer5/StartOppSpace" to="." method="_on_start_opp_space_new_effect_data"]
+[connection signal="pressed" from="Save" to="." method="_on_save_pressed"]

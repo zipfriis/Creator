@@ -1,0 +1,343 @@
+[gd_scene load_steps=10 format=3 uid="uid://bi8uusla64iml"]
+
+[ext_resource type="Script" path="res://builder.gd" id="1_k7hx6"]
+[ext_resource type="Script" path="res://Trash.gd" id="3_5nijg"]
+[ext_resource type="PackedScene" uid="uid://buct7apuasip2" path="res://Scenes/editor.tscn" id="4_f3eag"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwggx"]
+bg_color = Color(0.239216, 0.239216, 0.239216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2g0th"]
+bg_color = Color(0.258824, 0.25098, 0.329412, 1)
+
+[sub_resource type="Animation" id="Animation_1su8m"]
+resource_name = "Importer"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Import:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 648), Vector2(0, 301)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Import:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_44xp1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Import:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 648)]
+}
+
+[sub_resource type="Animation" id="Animation_d2txr"]
+resource_name = "RawVeiwer"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -412), Vector2(0, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2gaiy"]
+_data = {
+"Importer": SubResource("Animation_1su8m"),
+"RESET": SubResource("Animation_44xp1"),
+"RawVeiwer": SubResource("Animation_d2txr")
+}
+
+[node name="Builder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k7hx6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.368627, 0.368627, 0.380392, 1)
+
+[node name="BuildSurface" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="MarginContainer" parent="BuildSurface"]
+layout_mode = 2
+
+[node name="Middle" type="HBoxContainer" parent="BuildSurface/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Title" type="Label" parent="BuildSurface/TopBar/Middle"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Card Builder
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Classes" type="OptionButton" parent="BuildSurface/TopBar/Middle"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="import" type="Button" parent="BuildSurface/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Import Class Json"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildSurface/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Raw" type="Button" parent="BuildSurface/TopBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+toggle_mode = true
+text = "Raw Data"
+
+[node name="Copy" type="Button" parent="BuildSurface/TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Copy Raw"
+
+[node name="MarginContainer" type="MarginContainer" parent="BuildSurface"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildSurface"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildSurface/HBoxContainer"]
+layout_mode = 2
+
+[node name="Cards" type="MarginContainer" parent="BuildSurface/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CardBlockContainer" type="Panel" parent="BuildSurface/HBoxContainer/VBoxContainer/Cards"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Cards" type="VBoxContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/Cards"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards"]
+layout_mode = 2
+text = "Cards:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Cards" type="VBoxContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="BuildSurface/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Races" type="VBoxContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races"]
+layout_mode = 2
+text = "Races:
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "New Race Name"
+
+[node name="NewRace" type="Button" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races/HBoxContainer"]
+layout_mode = 2
+text = "New"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Races" type="VBoxContainer" parent="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Effects" type="MarginContainer" parent="BuildSurface/HBoxContainer"]
+layout_mode = 2
+
+[node name="Components2" type="Panel" parent="BuildSurface/HBoxContainer/Effects"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildSurface/HBoxContainer/Effects"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="BuildSurface/HBoxContainer/Effects/VBoxContainer"]
+layout_mode = 2
+text = "Effects:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="BuildSurface/HBoxContainer/Effects/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+script = ExtResource("3_5nijg")
+
+[node name="Label" type="Label" parent="BuildSurface/HBoxContainer/Effects/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -11.5
+offset_right = 22.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Trash"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildSurface/HBoxContainer/Effects/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Effects" type="VBoxContainer" parent="BuildSurface/HBoxContainer/Effects/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Editor" parent="BuildSurface/HBoxContainer" instance=ExtResource("4_f3eag")]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_top = -412.0
+offset_right = 1152.0
+offset_bottom = -24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nwggx")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Import" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 648.0
+offset_right = 1152.0
+offset_bottom = 995.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2g0th")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Import"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Import/VBoxContainer"]
+layout_mode = 2
+
+[node name="Importer" type="Label" parent="Import/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Importer
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Load" type="Button" parent="Import/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "load"
+
+[node name="MarginContainer" type="MarginContainer" parent="Import/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextEdit" type="TextEdit" parent="Import/VBoxContainer/MarginContainer"]
+layout_mode = 2
+placeholder_text = "paste valid json of class you like to import."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2gaiy")
+}
+
+[connection signal="pressed" from="BuildSurface/TopBar/import" to="." method="_on_import_pressed"]
+[connection signal="toggled" from="BuildSurface/TopBar/import" to="." method="_on_import_toggled"]
+[connection signal="toggled" from="BuildSurface/TopBar/HBoxContainer/Raw" to="." method="_on_raw_toggled"]
+[connection signal="pressed" from="BuildSurface/TopBar/HBoxContainer/Copy" to="." method="_on_copy_pressed"]
+[connection signal="pressed" from="BuildSurface/HBoxContainer/VBoxContainer/MarginContainer/Races/HBoxContainer/NewRace" to="." method="_on_new_race_pressed"]
+[connection signal="resized" from="BuildSurface/HBoxContainer/Effects/VBoxContainer/ScrollContainer/Effects" to="." method="_on_effects_resized"]
+[connection signal="UpdateCardData" from="BuildSurface/HBoxContainer/Editor" to="." method="_on_editor_update_card_data"]
+[connection signal="pressed" from="Import/VBoxContainer/HBoxContainer/Load" to="." method="_on_load_pressed"]

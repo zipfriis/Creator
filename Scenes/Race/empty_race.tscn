@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc3acte5sni7x"]
+
+[ext_resource type="Script" path="res://Scenes/Race/empty_race.gd" id="1_36swc"]
+[ext_resource type="Script" path="res://Scenes/Race/Drop.gd" id="1_80iww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1tck"]
+bg_color = Color(0.678431, 0.843137, 1, 0.815686)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.423529, 0.592157, 0.717647)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_t2bq5"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="EmptyRace" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 20)
+script = ExtResource("1_36swc")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h1tck")
+
+[node name="Dropped" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 1
+script = ExtResource("1_80iww")
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Drop Type"
+label_settings = SubResource("LabelSettings_t2bq5")
+horizontal_alignment = 1
+vertical_alignment = 1

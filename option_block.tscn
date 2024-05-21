@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4ak8os2na4xj"]
+
+[ext_resource type="Script" path="res://option_block.gd" id="1_7mg0o"]
+
+[node name="OptionBlock" type="HBoxContainer"]
+script = ExtResource("1_7mg0o")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Name: "
+
+[node name="Health" type="OptionButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3

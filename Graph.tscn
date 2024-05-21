@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bhk3jih23kgw4"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scroll_offset = Vector2(-40, -40)
+metadata/_edit_lock_ = true
+
+[node name="GraphElement" type="GraphElement" parent="GraphEdit"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 206.0
+offset_right = 274.0
+offset_bottom = 352.0
+
+[node name="GraphNode" type="GraphNode" parent="GraphEdit/GraphElement"]
+layout_mode = 2
+offset_right = 136.0
+offset_bottom = 146.0
+title = "Effect"
