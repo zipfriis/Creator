@@ -285,7 +285,6 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 
 [node name="Import" type="Panel" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 648.0
 offset_right = 1152.0

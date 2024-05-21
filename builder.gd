@@ -108,16 +108,24 @@ func _on_import_pressed() -> void:
 
 func _on_load_pressed() -> void:
 	var Content: String = $Import/VBoxContainer/MarginContainer/TextEdit.text
-	var JSONDict: Dictionary = JSON.parse_string(Content)
-	if JsonDict.has("Name"):
-		var NewClass = Class.new(JSONDict["Name"])
-		NewClass.LoadClassDict(JSONDict)
-		SaveAndLoadClass(NewClass)
-	if JsonDict.has("ClassName"):
-		var NewClass = Class.new(JSONDict["ClassName"])
-		NewClass.LoadClassDict(JSONDict)
-		SaveAndLoadClass(NewClass)
-	
+	var JSONDict: Dictionary
+	# Parse the JSON string
+	JSONDict = JSON.parse_string(Content)
+	for ClassThing in JSONDict["Classes"]:
+		if ClassThing.has("Name"):
+			print("Loading Class: " + str(ClassThing["Name"]))
+			var NewClass = Class.new(ClassThing["Name"])
+			NewClass.LoadClassDict(ClassThing)
+			SaveAndLoadClass(NewClass)
+	if JSONDict.has("Type_Record"):
+		print("Type_Record is here")
+		for TypeThing in JSONDict["Type_Record"]:
+			if TypeThing != null:
+				Global.Type_Record.append(TypeThing)
+	else:
+		print("i am so fucked ")
+		print(Global.Classes)
+	Global.Save()
 
 
 func SaveAndLoadClass(Data: Class):
