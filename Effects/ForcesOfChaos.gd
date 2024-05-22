@@ -18,6 +18,7 @@ func ConvertToJSON() -> Dictionary:
 	Data["Command"] = Command
 	Data[Command] = {}
 	var ListOfEffects: Array[Dictionary]
+	print("Foreces of Chaos Child Effects: " + str(Effects))
 	for ChildEffect in Effects:
 		if ChildEffect != null:
 			ListOfEffects.append(ChildEffect.ConvertToJSON())

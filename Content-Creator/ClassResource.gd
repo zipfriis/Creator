@@ -27,7 +27,6 @@ func LoadClassDict(Data: Dictionary):
 			else:
 				NewCard = Card.new(CardOBJ['Name'])
 			NewCard.LoadCardDict(CardOBJ)
-			print("New Card: " + str(NewCard.ConvertToJSON()))
 			CardList.append(NewCard)
 	if Data["Tokens"]:
 		for CardOBJ in Data['Tokens']:

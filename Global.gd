@@ -90,7 +90,10 @@ func EffectFromDict(Contructer: Dictionary):
 			"Occupy BattleField":
 				return OccupyBattleField.new()
 			"Kill Random Enemie(s)":
-				return KillRandomEnemies.new()
+				var NewEffect = KillRandomEnemies.new()
+				NewEffect.Amount =  Contructer["Kill Random Enemie(s)"]["Amount"]
+				return NewEffect
+				
 			# Berserker Class effects
 			"Nordic Gods":
 				var NewEffect = NordicGods.new(Global.GeneralEffectList)
@@ -98,8 +101,9 @@ func EffectFromDict(Contructer: Dictionary):
 					NewEffect.Effects.append(EffectFromDict(ChildEffect))
 				return NewEffect
 			"Forces Of Chaos":
+				print("Forces Thing: " + str(Contructer))
 				var NewEffect = ForcesOfChaos.new(Global.GeneralEffectList)
 				for ChildEffect: Dictionary in Contructer["Forces Of Chaos"]["Effects"]:
 					NewEffect.Effects.append(EffectFromDict(ChildEffect))
-					print("Forces Of Chaos Child: " + str(ChildEffect) + " " + str(NewEffect.Effects))
+				print("Forces Thing: " + str(NewEffect.ConvertToJSON()))
 				return NewEffect

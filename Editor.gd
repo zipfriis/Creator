@@ -42,19 +42,19 @@ func LoadCardData(Data: Card):
 	LoadEffectBoxes(Data)
 	if Data.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
-		for EffectItem in Data.EndOfTurnTrigger:
+		for EffectItem: Effect in Data.EndOfTurnTrigger:
 			if EffectItem != null:
 				$ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem in Data.WarCryTrigger:
+		for EffectItem: Effect in Data.WarCryTrigger:
 			if EffectItem != null:
 				$ScrollContainer/General/UnitContainer/MarginContainer2/WarCrySpace.AddNewEffectBlock(EffectItem)
-		for EffectItem in Data.WhileAliveTrigger:
+		for EffectItem: Effect in Data.WhileAliveTrigger:
 			if EffectItem != null:
 				$ScrollContainer/General/UnitContainer/MarginContainer3/WhileSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem in Data.UponDeathTrigger:
+		for EffectItem: Effect in Data.UponDeathTrigger:
 			if EffectItem != null:
 				$ScrollContainer/General/UnitContainer/MarginContainer4/UponDeathSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem in Data.StartOppTrigger:
+		for EffectItem: Effect in Data.StartOppTrigger:
 			if EffectItem != null:
 				$ScrollContainer/General/UnitContainer/MarginContainer5/StartOppSpace.AddNewEffectBlock(EffectItem)
 		$ScrollContainer/General/UnitContainer/HBoxContainer2/AttackDamageOption.select(Data.AttackDamage)
@@ -127,7 +127,8 @@ func _on_back_pressed() -> void:
 
 
 func _on_empty_card_block_updated_card_data(Data: Card) -> void:
-	LoadCardData(Data)
+	if Data.Name != EditOfCard.Name:
+		LoadCardData(Data)
 
 
 func _on_new_race_pressed() -> void:
@@ -147,6 +148,7 @@ func LoadClass(Data: Class):
 
 
 func SaveCard():
+	print("Saved: " + str(EditOfCard.ConvertToJSON()))
 	emit_signal("UpdateCardData", EditOfCard)
 
 

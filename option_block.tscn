@@ -9,6 +9,8 @@ script = ExtResource("1_7mg0o")
 layout_mode = 2
 text = "Name: "
 
-[node name="Health" type="OptionButton" parent="."]
+[node name="Amount" type="OptionButton" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[connection signal="item_selected" from="Amount" to="." method="_on_amount_item_selected"]

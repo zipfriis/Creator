@@ -30,6 +30,11 @@ func LoadEffect(effect: Effect):
 			InfoBlocks.add_child(OptionBlock)
 			OptionBlock.SetText(Var)
 			OptionBlock.NumberOptions(0, 10)
+			OptionBlock.Handler = self
+			
+			if effect.RequiredVars[i] == "Amount":
+				OptionBlock.Select(effect.Amount)
+			
 		elif effect.VarsTypes[i] == Effect.ETypes.Cards:
 			var CardBlock = load('res://Scenes/CardBlock/empty_card_block.tscn').instantiate()
 			InfoBlocks.add_child(CardBlock)
@@ -46,13 +51,30 @@ func LoadEffect(effect: Effect):
 			if InitOfEffectBlock != null:
 				InitOfEffectBlock.EffectOptionList.append(effect.RequiredVars[i])
 		i = i + 1
+	# effects with child effects
+	if effect.Command == "Forces Of Chaos":
+		if InitOfEffectBlock != null:
+			for EffectObj:Effect in effect.Effects:
+				print("Forces THing: " + str(EffectObj.ConvertToJSON()))
+				InitOfEffectBlock.AddNewEffectBlock(EffectObj)
+	elif effect.Command == "Nordic Gods":
+		if InitOfEffectBlock != null:
+			for EffectObj: Effect in effect.Effects:
+				InitOfEffectBlock.AddNewEffectBlock(EffectObj)
 
 
 func NewEffectData(Data: Array[Effect]):
+	print("Child Effects: " + str(Data))
 	data.Effects = Data
 
-func NewOptionData(option: int):
-	print("new Option: " + str(option))
+func NewOptionData(Option: int, Name: String):
+	if Name == "Amount":
+		data.Amount = Option
+	elif Name == "Health":
+		data.Health = Option
+	elif Name == "AttackDamage":
+		data.AttackDamage = Option
+	print("Option Data: " + str(data.ConvertToJSON()))
 
 func NewRaceName(Name: String):
 	print("new race name: " + str(Name))
