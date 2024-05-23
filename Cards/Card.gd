@@ -85,10 +85,9 @@ func LoadCardDict(Data: Dictionary) -> void:
 					Effects.append(Global.EffectFromDict(EffectDict))
 	else:
 		CardType = Card.CardTypes.Nothing
-	
-	if self.ConvertToJSON() != Data:
-		push_warning("loading change the card data, something is wrong")
-		print("Error: " + str(self.ConvertToJSON()))
+	if JSON.stringify(self.ConvertToJSON()) != JSON.stringify(Data):
+		push_error("loading change the card data, something is wrong")
+		print("Error: " + str(self.ConvertToJSON()) + "  Before: " + str(Data))
 
 
 func ConvertToJSON() -> Dictionary:
@@ -133,6 +132,8 @@ func ConvertToJSON() -> Dictionary:
 	Data["EssenceCost"] = EssenceCost
 	Data["Health"] = Health
 	Data["AttackDamage"] = AttackDamage
-	Data["Class"] = ClassName 
+	Data["Class"] = ClassName
+	var CardString = JSON.stringify(Data)
+	Data = JSON.parse_string(CardString)
 	
 	return Data

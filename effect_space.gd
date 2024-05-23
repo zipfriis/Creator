@@ -16,6 +16,8 @@ func Clear():
 
 
 func AddNewEffectBlock(EffectObj: Effect) -> void:
+	EffectList.append(EffectObj)
+	Data.append(EffectObj.ConvertToJSON())
 	var NewEffectBlock = load('res://Effect.tscn').instantiate()
 	NewEffectBlock.LoadEffect(EffectObj)
 	$VBoxContainer/Effects.add_child(NewEffectBlock)

@@ -51,21 +51,27 @@ func LoadEffects():
 		NewEffect.LoadEffect(EffectData)
 	$BuildSurface/HBoxContainer/Effects/VBoxContainer/Title.text = "Effects: " + str(NumberOfEffects)
 	return
-	
 
 
 func LoadClass(Data: Class):
-	Classes[Data.Name] = Data
-	$BuildSurface/TopBar/Middle/Classes.add_item(Data["Name"])
-	$BuildSurface/HBoxContainer/Editor.LoadClass(Data)
-	SelectedClass = Data.Name
-	for CardObj in Data.Cards:
-		LoadCard(CardObj)
+	if Data != null:
+		Classes[Data.Name] = Data
+		$BuildSurface/TopBar/Middle/Classes.add_item(Data["Name"])
+		$BuildSurface/HBoxContainer/Editor.LoadClass(Data)
+		SelectedClass = Data.Name
+		var CardList: Node = $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards
+		for ChildCard in CardList.get_children():
+			CardList.remove_child(ChildCard)
+		for CardObj in Data.Cards:
+			LoadCard(CardObj)
+	else:
+		push_error("The class does not exist")
 
 
 func LoadCard(Data: Card):
 	var CardList = $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards
 	var NewCard = load('res://Scenes/CardBlock/card_block.tscn').instantiate()
+	print("Class Card: " + str(Data.ConvertToJSON()))
 	NewCard.LoadData(Data)
 	CardList.add_child(NewCard)
 
@@ -138,22 +144,12 @@ func _on_copy_pressed() -> void:
 
 
 func _on_editor_update_card_data(Data: Card) -> void:
-	var ClassData: Class = Classes[SelectedClass]
-	var NewCardsToClass: Array[Card]
-	for CardINClass in ClassData.Cards:
-		if CardINClass.Name == Data.Name:
-			NewCardsToClass.append(Data)
-		else:
-			NewCardsToClass.append(CardINClass)
-	ClassData.Cards = NewCardsToClass
-	Classes[SelectedClass] = ClassData
-	var i = 0
-	for ClassThing in Global.Classes:
-		if ClassThing.Name == ClassData.Name:
-			Global.Classes[i] = ClassData
-			Global.Save()
-			return
-		i = i + 1
+	print("Editor Save: " + str(Data.ConvertToJSON()))
+	if Data != null:
+		Global.SaveCard(Data)
+		LoadClass(Global.GetClassByName(Data.ClassName))
+	else:
+		push_warning("The card is not valid")
 
 
 

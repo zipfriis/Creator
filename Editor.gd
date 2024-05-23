@@ -37,8 +37,10 @@ func ResetValues():
 
 
 func LoadCardData(Data: Card):
-	EditOfCard = Data
+	SaveCard(EditOfCard)
+	EditOfCard = null
 	ResetValues()
+	EditOfCard = Data
 	LoadEffectBoxes(Data)
 	if Data.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
@@ -75,7 +77,6 @@ func LoadCardData(Data: Card):
 		RaceBlock.LoadRace(Data.Type)
 	$ScrollContainer/General/Description/LineEdit.text = Data.Description
 	$ScrollContainer/General/EssenceCost/EssenceCost.select(Data.EssenceCost)
-	
 	RootNode.Get_Storage_Raw()
 
 
@@ -127,6 +128,7 @@ func _on_back_pressed() -> void:
 
 
 func _on_empty_card_block_updated_card_data(Data: Card) -> void:
+	print("Load New Edit Card: " + JSON.stringify(Data.ConvertToJSON()))
 	if Data.Name != EditOfCard.Name:
 		LoadCardData(Data)
 
@@ -147,58 +149,58 @@ func LoadClass(Data: Class):
 	ClassData = Data
 
 
-func SaveCard():
-	print("Saved: " + str(EditOfCard.ConvertToJSON()))
-	emit_signal("UpdateCardData", EditOfCard)
+func SaveCard(Data: Card):
+	if Data.ClassName != "":
+		emit_signal("UpdateCardData", Data)
 
 
 func _on_empty_race_new_race_name(Race: String) -> void:
 	EditOfCard.Type = Race
-	SaveCard()
 
 func _on_effect_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.Effects = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.Effects = Data
+
 
 func _on_end_of_turn_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.EndOfTurnTrigger = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.EndOfTurnTrigger = Data
+
 
 func _on_war_cry_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.WarCryTrigger = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.WarCryTrigger = Data
+
 
 func _on_while_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.WhileAliveTrigger = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.WhileAliveTrigger = Data
+
 
 func _on_upon_death_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.UponDeathTrigger = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.UponDeathTrigger = Data
 
 func _on_start_opp_space_new_effect_data(Data: Array[Effect]) -> void:
-	EditOfCard.StartOppTrigger = Data
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.StartOppTrigger = Data
 
 
 func _on_essence_cost_item_selected(index: int) -> void:
-	EditOfCard.EssenceCost = index
-	SaveCard()
+	if EditOfCard != null:
+		EditOfCard.EssenceCost = index
 
 
 func _on_save_pressed() -> void:
-	SaveCard()
+	SaveCard(EditOfCard)
 
 
 func _on_line_edit_text_changed(new_text: String) -> void:
 	EditOfCard.Description = new_text
-	SaveCard()
 
 
 func _on_health_option_item_selected(index: int) -> void:
 	EditOfCard.Health = index + 1
-	SaveCard()
 
 func _on_attack_damage_option_item_selected(index: int) -> void:
 	EditOfCard.AttackDamage = index
-	SaveCard()

@@ -54,13 +54,15 @@ func LoadEffect(effect: Effect):
 	# effects with child effects
 	if effect.Command == "Forces Of Chaos":
 		if InitOfEffectBlock != null:
-			for EffectObj:Effect in effect.Effects:
-				print("Forces THing: " + str(EffectObj.ConvertToJSON()))
-				InitOfEffectBlock.AddNewEffectBlock(EffectObj)
+			for EffectObj: Effect in effect.Effects:
+				if EffectObj != null:
+					print("Forces THing: " + str(EffectObj.ConvertToJSON()))
+					InitOfEffectBlock.AddNewEffectBlock(EffectObj)
 	elif effect.Command == "Nordic Gods":
 		if InitOfEffectBlock != null:
 			for EffectObj: Effect in effect.Effects:
-				InitOfEffectBlock.AddNewEffectBlock(EffectObj)
+				if EffectObj != null:
+					InitOfEffectBlock.AddNewEffectBlock(EffectObj)
 
 
 func NewEffectData(Data: Array[Effect]):

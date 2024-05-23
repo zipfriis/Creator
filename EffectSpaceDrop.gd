@@ -10,8 +10,6 @@ func _can_drop_data(_at_position: Vector2, Data: Variant) -> bool:
 
 func _drop_data(_at_position: Vector2, Data: Variant) -> void:
 	var EfffectBlock: Effect = Data["Effect"]
+	$'../..'.AddNewEffectBlock(EfffectBlock)
 	print(EfffectBlock.ConvertToJSON())
-	var NewEffect = load('res://Effect.tscn').instantiate()
-	NewEffect.LoadEffect(EfffectBlock)
-	$'../Effects'.add_child(NewEffect)
-	NewEffect.Handler = $'../..'
+
