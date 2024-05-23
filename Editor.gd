@@ -37,47 +37,69 @@ func ResetValues():
 
 
 func LoadCardData(Data: Card):
+	print("LoadEditCard: " + str(Data.ConvertToJSON()))
+	
+	# Ensure any existing card data is saved and cleaned up properly
 	SaveCard(EditOfCard)
 	EditOfCard = null
-	ResetValues()
+	ResetValues()  # Ensure this properly resets all necessary state
+	
 	EditOfCard = Data
-	LoadEffectBoxes(Data)
+	LoadEffectBoxes(EditOfCard)
+	
 	if Data.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
-		for EffectItem: Effect in Data.EndOfTurnTrigger:
-			if EffectItem != null:
-				$ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem: Effect in Data.WarCryTrigger:
-			if EffectItem != null:
-				$ScrollContainer/General/UnitContainer/MarginContainer2/WarCrySpace.AddNewEffectBlock(EffectItem)
-		for EffectItem: Effect in Data.WhileAliveTrigger:
-			if EffectItem != null:
-				$ScrollContainer/General/UnitContainer/MarginContainer3/WhileSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem: Effect in Data.UponDeathTrigger:
-			if EffectItem != null:
-				$ScrollContainer/General/UnitContainer/MarginContainer4/UponDeathSpace.AddNewEffectBlock(EffectItem)
-		for EffectItem: Effect in Data.StartOppTrigger:
-			if EffectItem != null:
-				$ScrollContainer/General/UnitContainer/MarginContainer5/StartOppSpace.AddNewEffectBlock(EffectItem)
-		$ScrollContainer/General/UnitContainer/HBoxContainer2/AttackDamageOption.select(Data.AttackDamage)
-		if Data.Health == 0:
-			$ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption.select(0)
-		else:
-			$ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption.select(Data.Health - 1)
+		LoadUnitTriggers(Data)
 	elif Data.CardType == Card.CardTypes.Spell:
 		ShowSpellDetails()
-		for EffectItem in Data.Effects:
-			if EffectItem != null:
-				$ScrollContainer/General/SpellContainer/MarginContainer/EffectSpace.AddNewEffectBlock(EffectItem)
+		LoadSpellEffects(Data)
 	else:
 		ShowNoDetails()
+		
+	LoadRace(Data)
+	LoadDescriptionAndEssence(Data)
+	RootNode.Get_Storage_Raw()
+
+# Helper function to load unit triggers
+func LoadUnitTriggers(Data: Card):
+	for EffectItem in Data.EndOfTurnTrigger:
+		if EffectItem != null:
+			$ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace.AddNewEffectBlock(EffectItem)
+	for EffectItem in Data.WarCryTrigger:
+		if EffectItem != null:
+			$ScrollContainer/General/UnitContainer/MarginContainer2/WarCrySpace.AddNewEffectBlock(EffectItem)
+	for EffectItem in Data.WhileAliveTrigger:
+		if EffectItem != null:
+			$ScrollContainer/General/UnitContainer/MarginContainer3/WhileSpace.AddNewEffectBlock(EffectItem)
+	for EffectItem in Data.UponDeathTrigger:
+		if EffectItem != null:
+			$ScrollContainer/General/UnitContainer/MarginContainer4/UponDeathSpace.AddNewEffectBlock(EffectItem)
+	for EffectItem in Data.StartOppTrigger:
+		if EffectItem != null:
+			$ScrollContainer/General/UnitContainer/MarginContainer5/StartOppSpace.AddNewEffectBlock(EffectItem)
+	$ScrollContainer/General/UnitContainer/HBoxContainer2/AttackDamageOption.select(Data.AttackDamage)
+	if Data.Health == 0:
+		$ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption.select(0)
+	else:
+		$ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption.select(Data.Health - 1)
+
+# Helper function to load spell effects
+func LoadSpellEffects(Data: Card):
+	for EffectItem in Data.Effects:
+		if EffectItem != null:
+			$ScrollContainer/General/SpellContainer/MarginContainer/EffectSpace.AddNewEffectBlock(EffectItem)
+
+# Helper function to load race
+func LoadRace(Data: Card):
 	if Data.Type != "":
 		var RaceBlock = load('res://Scenes/Race/Race.tscn').instantiate()
 		$ScrollContainer/General/EmptyRace.add_child(RaceBlock)
 		RaceBlock.LoadRace(Data.Type)
+
+# Helper function to load description and essence cost
+func LoadDescriptionAndEssence(Data: Card):
 	$ScrollContainer/General/Description/LineEdit.text = Data.Description
 	$ScrollContainer/General/EssenceCost/EssenceCost.select(Data.EssenceCost)
-	RootNode.Get_Storage_Raw()
 
 
 func _on_option_button_item_selected(index: int) -> void:
@@ -129,8 +151,7 @@ func _on_back_pressed() -> void:
 
 func _on_empty_card_block_updated_card_data(Data: Card) -> void:
 	print("Load New Edit Card: " + JSON.stringify(Data.ConvertToJSON()))
-	if Data.Name != EditOfCard.Name:
-		LoadCardData(Data)
+	LoadCardData(Data)
 
 
 func _on_new_race_pressed() -> void:

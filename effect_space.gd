@@ -67,7 +67,7 @@ func SetPolygon(ContainerBox: Node, Polygon: Polygon2D):
 	Polygon.polygon = NewPolygon
 
 
-func _on_effects_child_entered_tree(node: Node) -> void:
+func _on_effects_child_entered_tree(_node: Node) -> void:
 	EffectAmount = $VBoxContainer/Effects.get_child_count()
 	CheckEffectAmount()
 	ReloadEffectList([])

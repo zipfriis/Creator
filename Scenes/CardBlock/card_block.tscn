@@ -42,17 +42,8 @@ label_settings = SubResource("LabelSettings_vqyx3")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Edit" type="Button" parent="CardBlock/HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-text = "Edit"
-
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="CardBlock" to="." method="_on_card_block_resized"]
 [connection signal="resized" from="CardBlock/HBoxContainer/CardName" to="." method="_on_label_resized"]
-[connection signal="mouse_entered" from="CardBlock/HBoxContainer/Edit" to="." method="_on_edit_mouse_entered"]
-[connection signal="pressed" from="CardBlock/HBoxContainer/Edit" to="." method="_on_edit_pressed"]

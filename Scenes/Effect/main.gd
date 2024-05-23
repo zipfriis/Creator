@@ -8,7 +8,7 @@ var FirstPos: Vector2
 var BlockType: String = "EffectBlock"
 var Handler: Node
 
-func DataSet(Block: Node, Data: Variant):
+func DataSet(Block: Node, _Data: Variant):
 	if Block.BlockType == "":
 		pass
 
@@ -32,6 +32,7 @@ func LoadEffect(effect: Effect):
 			OptionBlock.NumberOptions(0, 10)
 			OptionBlock.Handler = self
 			
+			# specify all amount Etype of effects. 
 			if effect.RequiredVars[i] == "Amount":
 				OptionBlock.Select(effect.Amount)
 			elif effect.RequiredVars[i] == "Health":
@@ -83,9 +84,11 @@ func NewOptionData(Option: int, Name: String):
 	print("Option Data: " + str(data.ConvertToJSON()))
 
 func NewRaceName(Name: String):
+	data.Type = Name
 	print("new race name: " + str(Name))
 
 func UpdateCardData(Data: Card):
+	data.CardNameORToken = Data
 	print("New Card")
 
 func SetPolygon():

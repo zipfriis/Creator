@@ -21,3 +21,8 @@ res://Effects/ForcesOfChaos.gd
 res://Effects/NordicGods.gd
 res://Trash.gd
 res://Scenes/CardBlock/DropSpace.gd
+res://EfffectBlockDrag.gd
+res://Scenes/Race/empty_race.gd
+res://Scenes/Race/Drop.gd
+res://Scenes/CardBlock/TextureRect.gd
+res://Scenes/CardBlock/card_block.gd

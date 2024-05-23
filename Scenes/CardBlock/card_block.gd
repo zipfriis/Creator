@@ -60,22 +60,3 @@ func _on_card_block_resized() -> void:
 
 func _on_label_resized() -> void:
 	SetSize()
-
-
-func _on_mouse_entered() -> void:
-	hover = true
-	$CardBlock/HBoxContainer/Edit.visible = true
-
-
-func _on_mouse_exited() -> void:
-	hover = false
-	$CardBlock/HBoxContainer/Edit.visible = false
-
-
-func _on_edit_mouse_entered() -> void:
-	hover = true
-	$CardBlock/HBoxContainer/Edit.visible = true
-
-
-func _on_edit_pressed() -> void:
-	pass # Replace with function body.

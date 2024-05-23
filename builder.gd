@@ -146,7 +146,11 @@ func _on_editor_update_card_data(Data: Card) -> void:
 	print("Editor Save: " + str(Data.ConvertToJSON()))
 	if Data != null:
 		Global.SaveCard(Data)
-		LoadClass(Global.GetClassByName(Data.ClassName))
+		
+		for CardItem in $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards.get_children():
+			if CardItem.data.Name == Data.Name:
+				print("Card Panel: " + str(Data.ConvertToJSON()))
+				CardItem.LoadData(Data)
 	else:
 		push_error("The card is not valid")
 
