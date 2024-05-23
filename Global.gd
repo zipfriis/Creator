@@ -31,7 +31,7 @@ func GetClasses() -> Array[Class]:
 
 
 func Save():
-	var Data: Dictionary
+	var Data: Dictionary = {}
 	Data["Classes"] = [] 
 	for ClassObj: Class in Classes:
 		Data["Classes"].append(ClassObj.ConvertToJSON())
@@ -76,7 +76,7 @@ func LoadSave():
 
 
 func GetRaw() -> String:
-	var Data: Dictionary
+	var Data: Dictionary = {}
 	Data["Classes"] = [] 
 	for ClassObj: Class in Classes:
 		Data["Classes"].append(ClassObj.ConvertToJSON())

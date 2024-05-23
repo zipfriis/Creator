@@ -58,8 +58,8 @@ func LoadCardDict(Data: Dictionary) -> void:
 					EndOfTurnTrigger.append(Global.EffectFromDict(EndOfTurn))
 		if Data.has("War Cry"):
 			if len(Data["War Cry"]) != 0:
-				for WarCry: Dictionary in Data["War Cry"]:
-					WarCryTrigger.append(Global.EffectFromDict(WarCry))
+				for WarCryDict: Dictionary in Data["War Cry"]:
+					WarCryTrigger.append(Global.EffectFromDict(WarCryDict))
 		if Data.has("Upon Death"):
 			if len(Data["Upon Death"]) != 0:
 				for UponDeathEffect: Dictionary in Data["Upon Death"]:

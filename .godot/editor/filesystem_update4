@@ -16,3 +16,8 @@ res://Editor.gd
 res://builder.gd
 res://Effects/AllEnemyDeBuff.gd
 res://Scenes/Effect/main.gd
+res://Effects/GiveSummonedCreatureStats.gd
+res://Effects/ForcesOfChaos.gd
+res://Effects/NordicGods.gd
+res://Trash.gd
+res://Scenes/CardBlock/DropSpace.gd

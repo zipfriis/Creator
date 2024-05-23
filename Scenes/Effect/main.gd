@@ -34,6 +34,10 @@ func LoadEffect(effect: Effect):
 			
 			if effect.RequiredVars[i] == "Amount":
 				OptionBlock.Select(effect.Amount)
+			elif effect.RequiredVars[i] == "Health":
+				OptionBlock.Select(effect.Health)
+			elif effect.RequiredVars[i] == "AttackDamage":
+				OptionBlock.Select(effect.AttackDamage)
 			
 		elif effect.VarsTypes[i] == Effect.ETypes.Cards:
 			var CardBlock = load('res://Scenes/CardBlock/empty_card_block.tscn').instantiate()

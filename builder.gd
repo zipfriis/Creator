@@ -55,7 +55,6 @@ func LoadEffects():
 
 func LoadClass(Data: Class):
 	if Data != null:
-		Classes[Data.Name] = Data
 		$BuildSurface/TopBar/Middle/Classes.add_item(Data["Name"])
 		$BuildSurface/HBoxContainer/Editor.LoadClass(Data)
 		SelectedClass = Data.Name
@@ -149,7 +148,7 @@ func _on_editor_update_card_data(Data: Card) -> void:
 		Global.SaveCard(Data)
 		LoadClass(Global.GetClassByName(Data.ClassName))
 	else:
-		push_warning("The card is not valid")
+		push_error("The card is not valid")
 
 
 
