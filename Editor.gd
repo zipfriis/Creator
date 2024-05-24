@@ -37,6 +37,7 @@ func ResetValues():
 
 
 func LoadCardData(Data: Card):
+	var JsonCard: Dictionary = Data.ConvertToJSON()
 	print("LoadEditCard: " + str(Data.ConvertToJSON()))
 	
 	# Ensure any existing card data is saved and cleaned up properly
@@ -47,22 +48,27 @@ func LoadCardData(Data: Card):
 	EditOfCard = Data
 	LoadEffectBoxes(EditOfCard)
 	
-	if Data.CardType == Card.CardTypes.Unit:
+	if EditOfCard.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
-		LoadUnitTriggers(Data)
-	elif Data.CardType == Card.CardTypes.Spell:
+		LoadUnitTriggers(EditOfCard, JsonCard)
+	elif EditOfCard.CardType == Card.CardTypes.Spell:
 		ShowSpellDetails()
-		LoadSpellEffects(Data)
+		LoadSpellEffects(EditOfCard)
 	else:
 		ShowNoDetails()
 		
-	LoadRace(Data)
-	LoadDescriptionAndEssence(Data)
+	LoadRace(EditOfCard)
+	LoadDescriptionAndEssence(EditOfCard)
 	RootNode.Get_Storage_Raw()
 
 # Helper function to load unit triggers
-func LoadUnitTriggers(Data: Card):
-	for EffectItem in Data.EndOfTurnTrigger:
+func LoadUnitTriggers(Shit: Card, CardDict: Dictionary):
+	# getting the data from the dict.
+	var Data = Global.CardFromDict(CardDict)
+	
+	for EffectItem: Effect in Data.EndOfTurnTrigger:
+		print("Trigger Effect: " + str(EffectItem.ConvertToJSON()))
+		print("Trigger Effect: " + str(CardDict))
 		if EffectItem != null:
 			$ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace.AddNewEffectBlock(EffectItem)
 	for EffectItem in Data.WarCryTrigger:
