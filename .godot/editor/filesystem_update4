@@ -14,3 +14,7 @@ res://Scenes/CardBlock/card_block.gd
 res://Scenes/CardBlock/DropSpace.gd
 res://builder.gd
 res://Scenes/CardBlock/TextureRect.gd
+res://Effects/Summon.gd
+res://Effects/NordicGods.gd
+res://Cards/Card.gd
+res://Scenes/CardBlock/empty_card_block.gd

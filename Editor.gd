@@ -227,3 +227,8 @@ func _on_health_option_item_selected(index: int) -> void:
 
 func _on_attack_damage_option_item_selected(index: int) -> void:
 	EditOfCard.AttackDamage = index
+
+
+func _on_set_card_pressed() -> void:
+	var NewCard = Card.new($'ScrollContainer/General/Card selection/CardObjContainer/LineEdit'.text)
+	

@@ -17,7 +17,8 @@ func _ready() -> void:
 	$BuildSurface/HBoxContainer/Editor/ScrollContainer/General/HBoxContainer/OptionButton.select(1)
 	$BuildSurface/HBoxContainer/Editor.ShowUnitDetails()
 	NoneTargetingSpell = false
-	LoadEffects()
+	LoadEffects() # loads hard coded effect to use in editor.
+	
 	var SavedClasses: Array[Class] = await Global.GetClasses()
 	if len(SavedClasses) != 0:
 		for ClassObj: Class in SavedClasses:
@@ -58,10 +59,17 @@ func LoadClass(Data: Class):
 		$BuildSurface/TopBar/Middle/Classes.add_item(Data["Name"])
 		SelectedClass = Data.Name
 		var CardList: Node = $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards
+		
+		# Cleaning old card/token instances
 		for ChildCard in CardList.get_children():
 			CardList.remove_child(ChildCard)
-		for CardObj in Data.Cards:
+		# Spawning new cards to use...
+		for CardObj in Data.Cards: # rendering cards
 			LoadCard(CardObj)
+		for CardObj in Data.Tokens:# rendering tokens
+			var NewCardObj = CardObj
+			NewCardObj.Token = true
+			LoadCard(NewCardObj)
 	else:
 		push_error("The class does not exist")
 
@@ -69,8 +77,7 @@ func LoadClass(Data: Class):
 func LoadCard(Data: Card):
 	var CardList = $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards
 	var NewCard = load('res://Scenes/CardBlock/card_block.tscn').instantiate()
-	print("Class Card: " + str(Data.ConvertToJSON()))
-	NewCard.LoadData(Data)
+	NewCard.UpdateData(Data)
 	CardList.add_child(NewCard)
 
 

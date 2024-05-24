@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://lxy3ohwu4ed3"]
 
-[ext_resource type="Script" path="res://Scenes/CardBlock/card_block.gd" id="1_qkh6q"]
+[ext_resource type="Script" path="res://Scenes/CardBlock/empty_card_block.gd" id="1_ddjv5"]
 [ext_resource type="Script" path="res://Scenes/CardBlock/DropSpace.gd" id="2_pammv"]
 
 [sub_resource type="Gradient" id="Gradient_r3a4c"]
@@ -20,7 +20,7 @@ custom_minimum_size = Vector2(0, 23)
 offset_right = 97.0
 offset_bottom = 23.0
 size_flags_horizontal = 3
-script = ExtResource("1_qkh6q")
+script = ExtResource("1_ddjv5")
 
 [node name="Label" type="Label" parent="."]
 visible = false

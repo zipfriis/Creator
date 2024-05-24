@@ -310,6 +310,7 @@ text = "Save"
 
 [connection signal="UpdatedCardData" from="ScrollContainer/General/Card selection/CardObjContainer/EmptyCardBlock" to="." method="_on_empty_card_block_updated_card_data"]
 [connection signal="pressed" from="ScrollContainer/General/Card selection/CardObjContainer/New" to="." method="_on_new_pressed"]
+[connection signal="pressed" from="ScrollContainer/General/Card selection/CardObjContainer/SetCard" to="." method="_on_set_card_pressed"]
 [connection signal="pressed" from="ScrollContainer/General/Card selection/CardObjContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="item_selected" from="ScrollContainer/General/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="text_changed" from="ScrollContainer/General/Description/LineEdit" to="." method="_on_line_edit_text_changed"]

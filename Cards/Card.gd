@@ -4,29 +4,36 @@ class_name Card
 
 enum CardTypes {Unit, Spell, Nothing}
 
+#init info to make card.
 @export var Name: String
 @export var CardType: CardTypes
 @export var ClassName: String
 
+# Set infomation as a Unit type
 @export var Description: String
 @export var Type: String
 @export var EssenceCost: int
 @export var Health: int
 @export var AttackDamage: int
 
-@export var Effects: Array[Effect]
-
+# unit Trigger effects
 @export var EndOfTurnTrigger: Array[Effect]
 @export var WarCryTrigger: Array[Effect]
 @export var WhileAliveTrigger: Array[Effect]
 @export var UponDeathTrigger: Array[Effect]
 @export var StartOppTrigger: Array[Effect]
 
+# Spell trigger effects 
+@export var Effects: Array[Effect]
 
+# manage of efitor state
 @export var PermissibleEffects: Array[String] = []
+@export var Token: bool = false
+
 
 func _init(I_Name: String) -> void:
 	Name = I_Name
+	CardType = CardTypes.Unit
 
 
 func LoadCardDict(Data: Dictionary) -> void:

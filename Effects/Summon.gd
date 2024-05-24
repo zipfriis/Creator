@@ -2,7 +2,7 @@ extends Effect
 
 class_name Summon
 
-@export var CardNameORToken: Card
+@export var CardNameORToken: Card = null
 @export var Amount: int
 
 func _init() -> void:
@@ -14,6 +14,8 @@ func _init() -> void:
 func ConvertToJSON() -> Dictionary:
 	var Data = {}
 	Data["Command"] = Command
-	Data[Command]["CardNameORToken"] = CardNameORToken
+	Data[Command] = {}
+	if CardNameORToken != null:
+		Data[Command]["CardNameORToken"] = CardNameORToken
 	Data[Command]["Amount"] = Amount
 	return Data

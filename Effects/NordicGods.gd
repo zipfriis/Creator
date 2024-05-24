@@ -19,6 +19,7 @@ func ConvertToJSON() -> Dictionary:
 	Data[Command] = {}
 	var ListOfEffects: Array[Dictionary] = []
 	for ChildEffect in Effects:
-		ListOfEffects.append(ChildEffect.ConvertToJSON())
+		if ChildEffect != null:
+			ListOfEffects.append(ChildEffect.ConvertToJSON())
 	Data[Command]["Effects"] = ListOfEffects
 	return Data

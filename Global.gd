@@ -50,7 +50,7 @@ func Save():
 
 
 func SaveCard(Data: Card):
-	print("Saved Class Old:   " + JSON.stringify(Classes[0].ConvertToJSON()))
+	print("Saved Class Old:          " + JSON.stringify(Classes[0].ConvertToJSON()))
 	var i = 0 
 	for ClassThing: Class in Global.Classes:
 		if Data.ClassName == ClassThing.Name:
@@ -61,8 +61,9 @@ func SaveCard(Data: Card):
 				j = j + 1
 			Classes[i] = ClassThing
 		i = i + 1
+	print("Saved Class New :        " + JSON.stringify(Classes[0].ConvertToJSON()))
 	Save()
-	print("Saved Class:   " + JSON.stringify(Classes[0].ConvertToJSON()))
+	print("Saved Class:        " + JSON.stringify(Classes[0].ConvertToJSON()))
 
 
 # gets to user saved file

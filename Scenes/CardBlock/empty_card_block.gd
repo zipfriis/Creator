@@ -34,7 +34,7 @@ func UpdateData(Data: Card):
 	%CardName.text = Data.Name
 	SetSize()
 	if Data.Token == true:
-		$CardBlock/Polygon2D.color = Color.DARK_GRAY
+		$CardBlock/Card.color = Color.DARK_GRAY
 	
 	# sending change event to parent nodes. 
 	emit_signal("UpdatedCardData", Data)
