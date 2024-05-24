@@ -2,7 +2,6 @@ extends MarginContainer
 
 signal UpdateCardData(Data: Card)
 
-var ClassData: Class
 var EditOfCard: Card
 var RootNode: Node 
 
@@ -50,7 +49,7 @@ func LoadCardData(Data: Card):
 	
 	if EditOfCard.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
-		LoadUnitTriggers(EditOfCard, JsonCard)
+		LoadUnitTriggers(JsonCard)
 	elif EditOfCard.CardType == Card.CardTypes.Spell:
 		ShowSpellDetails()
 		LoadSpellEffects(EditOfCard)
@@ -62,7 +61,7 @@ func LoadCardData(Data: Card):
 	RootNode.Get_Storage_Raw()
 
 # Helper function to load unit triggers
-func LoadUnitTriggers(Shit: Card, CardDict: Dictionary):
+func LoadUnitTriggers(CardDict: Dictionary):
 	# getting the data from the dict.
 	var Data = Global.CardFromDict(CardDict)
 	
@@ -172,12 +171,9 @@ func _on_new_race_pressed() -> void:
 	RootNode.Get_Storage_Raw()
 
 
-func LoadClass(Data: Class):
-	ClassData = Data
-
-
 func SaveCard(Data: Card):
 	if Data.ClassName != "":
+		print("Saved Card: " + JSON.stringify(Data.ConvertToJSON()))
 		emit_signal("UpdateCardData", Data)
 
 

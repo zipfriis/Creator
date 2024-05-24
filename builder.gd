@@ -56,7 +56,6 @@ func LoadEffects():
 func LoadClass(Data: Class):
 	if Data != null:
 		$BuildSurface/TopBar/Middle/Classes.add_item(Data["Name"])
-		$BuildSurface/HBoxContainer/Editor.LoadClass(Data)
 		SelectedClass = Data.Name
 		var CardList: Node = $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards
 		for ChildCard in CardList.get_children():
@@ -116,25 +115,24 @@ func _on_load_pressed() -> void:
 	var JSONDict: Dictionary
 	# Parse the JSON string
 	JSONDict = JSON.parse_string(Content)
+	var NewClassList: Array[Class] = []
 	for ClassThing in JSONDict["Classes"]:
 		if ClassThing.has("Name"):
 			print("Loading Class: " + str(ClassThing["Name"]))
 			var NewClass = Class.new(ClassThing["Name"])
 			NewClass.LoadClassDict(ClassThing)
-			SaveAndLoadClass(NewClass)
+			NewClassList.append(NewClass)
+	Global.LoadClasses(NewClassList)
 	if JSONDict.has("Type_Record"):
 		print("Type_Record is here")
-		for TypeThing in JSONDict["Type_Record"]:
+		var NewTypeRecord: Array[String] = []
+		for TypeThing: String in JSONDict["Type_Record"]:
 			if TypeThing != null:
-				Global.Type_Record.append(TypeThing)
+				NewTypeRecord.append(TypeThing)
+		Global.LoadTypeRecord(NewTypeRecord)
 	else:
 		print("i am so fucked ")
 		print(Global.Classes)
-	Global.Save()
-
-
-func SaveAndLoadClass(Data: Class):
-	Global.Classes.append(Data)
 	Global.Save()
 
 
@@ -146,11 +144,7 @@ func _on_editor_update_card_data(Data: Card) -> void:
 	print("Editor Save: " + str(Data.ConvertToJSON()))
 	if Data != null:
 		Global.SaveCard(Data)
-		
-		for CardItem in $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards.get_children():
-			if CardItem.data.Name == Data.Name:
-				print("Card Panel: " + str(Data.ConvertToJSON()))
-				CardItem.LoadData(Data)
+		#LoadClass(Global.GetClassByName(Data.ClassName))
 	else:
 		push_error("The card is not valid")
 

@@ -8,5 +8,6 @@ func _can_drop_data(_at_position: Vector2, Data: Variant) -> bool:
 	return false
 
 func _drop_data(_at_position: Vector2, Data: Variant) -> void:
+	print("Dropped Data: " + str(Data))
 	$Polygon2D.visible = false
 	$'..'.UpdateData(Data["Card"])

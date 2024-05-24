@@ -10,3 +10,7 @@ res://Scenes/CardBlock/empty_card_block.tscn
 res://Scenes/DropEffect/drop_effect.tscn
 res://Editor.gd
 res://Global.gd
+res://Scenes/CardBlock/card_block.gd
+res://Scenes/CardBlock/DropSpace.gd
+res://builder.gd
+res://Scenes/CardBlock/TextureRect.gd

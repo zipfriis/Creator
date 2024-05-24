@@ -26,11 +26,11 @@ func LoadData(Data: Card):
 	%CardName.text = Data.Name
 	SetSize()
 
-func UpdateData(Data:Card):
-	LoadData(Data)
-	emit_signal("UpdatedCardData", Data)
+func UpdateData(Data: Dictionary):
+	LoadData(Global.CardFromDict(Data))
+	emit_signal("UpdatedCardData", Global.CardFromDict(Data))
 	if Handler != null:
-		Handler.UpdateCardData(Data)
+		Handler.UpdateCardData(Global.CardFromDict(Data))
 		
 
 func AddText(text: String):

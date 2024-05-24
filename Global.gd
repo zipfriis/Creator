@@ -15,8 +15,16 @@ func _ready() -> void:
 	emit_signal("ClassHasLoaded")
 	ClassLoaded = true
 
+func LoadClasses(Data: Array[Class]):
+	Classes = Data
+	Save()
+
+func LoadTypeRecord(List: Array[String]):
+	Type_Record = List
+	Save()
 
 func GetClassByName(Name: String) -> Class:
+	LoadSave()
 	for ClassObj: Class in Classes:
 		print("Class Name: " + str(ClassObj.Name) + " " + str(Name))
 		if ClassObj.Name == Name:
@@ -42,19 +50,18 @@ func Save():
 
 
 func SaveCard(Data: Card):
-	var i = 0
+	var i = 0 
 	for ClassThing: Class in Global.Classes:
 		if Data.ClassName == ClassThing.Name:
-			print("Correct class for save  of card")
-			var j = 0
+			var j = 0 
 			for CardINClass in ClassThing.Cards:
 				if CardINClass.Name == Data.Name:
-					print("Correct Name for save of card")
 					ClassThing.Cards[j] = Data
 				j = j + 1
-		Classes[i] = ClassThing # saving the new class data
+			Classes[i] = ClassThing
 		i = i + 1
 	Save()
+	print("Saved Class:   " + JSON.stringify(Classes[0].ConvertToJSON()))
 
 
 # gets to user saved file

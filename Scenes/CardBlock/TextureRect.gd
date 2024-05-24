@@ -4,7 +4,7 @@ extends MarginContainer
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	var data = {}
 	data["Node"] = $'..'
-	data["Card"] = $'..'.data
+	data["Card"] = $'..'.data.ConvertToJSON()
 	set_drag_preview($'..'.duplicate())
 	return data
 
