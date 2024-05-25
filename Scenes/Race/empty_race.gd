@@ -5,8 +5,8 @@ signal NewRaceName(Name: String)
 var Handler: Node
 
 func Clear():
-	for Race in $Dropped.get_children():
-		$Dropped.remove_child(Race)
+	for RaceChild in $Dropped.get_children():
+		$Dropped.remove_child(RaceChild)
 
 func NewRace(Name: String):
 	Race = Name

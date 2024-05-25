@@ -6,6 +6,7 @@ signal UpdatedCardData(Data: Card)
 var BlockType: String = "CardBlock"
 var Handler: Node
 var hover: bool
+var VarName: String = "" # Name if dict key name
 
 # Card infomation
 var data: Card
@@ -26,6 +27,14 @@ func _process(_delta: float) -> void:
 			$CardBlock/HBoxContainer/Edit.visible = false
 
 
+func LoadName(NameOfCard: String, IsToken: bool) -> void:
+	# rendering changes
+	%CardName.text = NameOfCard
+	SetSize()
+	if IsToken == true:
+		$CardBlock/Card.color = Color.DARK_GRAY
+
+
 func UpdateData(Data: Card):
 	# loading data
 	data = Data
@@ -39,7 +48,7 @@ func UpdateData(Data: Card):
 	# sending change event to parent nodes. 
 	emit_signal("UpdatedCardData", Data)
 	if Handler != null:
-		Handler.UpdateCardData(Data)
+		Handler.UpdateCardData(Data.Name, VarName)
 
 
 func AddText(text: String):

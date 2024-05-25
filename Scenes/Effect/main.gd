@@ -44,6 +44,15 @@ func LoadEffect(effect: Effect):
 			var CardBlock = load('res://Scenes/CardBlock/empty_card_block.tscn').instantiate()
 			InfoBlocks.add_child(CardBlock)
 			CardBlock.AddText("Card: ")
+			CardBlock.VarName = effect.RequiredVars[i] # Setting the Key name
+			CardBlock.Handler = self
+			# Loading card name into the block
+			if effect.CardNameORToken != null:
+				if effect.CardNameORToken != "":
+					var CardObj: Card = Global.GetCardByName(effect.CardNameORToken)
+					if CardObj != null:
+						CardBlock.LoadName(CardObj.Name, CardObj.Token)
+				
 		elif effect.VarsTypes[i] == Effect.ETypes.Type:
 			var RaceBlock = load('res://Scenes/Race/empty_race.tscn').instantiate()
 			InfoBlocks.add_child(RaceBlock)
@@ -51,7 +60,7 @@ func LoadEffect(effect: Effect):
 			var EffectBlock = load('res://effect_space.tscn').instantiate()
 			InfoBlocks.add_child(EffectBlock)
 			InitOfEffectBlock = EffectBlock
-			EffectBlock.Handler = self
+			EffectBlock.SetHandler(self, effect.RequiredVars[i])
 		elif effect.VarsTypes[i] == Effect.ETypes.EffectOption:
 			if InitOfEffectBlock != null:
 				InitOfEffectBlock.EffectOptionList.append(effect.RequiredVars[i])
@@ -70,26 +79,40 @@ func LoadEffect(effect: Effect):
 					InitOfEffectBlock.AddNewEffectBlock(EffectObj)
 
 
-func NewEffectData(Data: Array[Effect]):
-	print("Child Effects: " + str(Data))
+func NewEffectData(Data: Array[Effect], VarName: String):
+	# new
+	data.Variables[VarName] = Data
+	
 	data.Effects = Data
 
-func NewOptionData(Option: int, Name: String):
-	if Name == "Amount":
+func NewOptionData(Option: int, VarName: String):
+	# new
+	data.Variables[VarName] = Option
+	
+	# legacy
+	if VarName == "Amount":
 		data.Amount = Option
-	elif Name == "Health":
+	elif VarName == "Health":
 		data.Health = Option
-	elif Name == "AttackDamage":
+	elif VarName == "AttackDamage":
 		data.AttackDamage = Option
-	print("Option Data: " + str(data.ConvertToJSON()))
 
-func NewRaceName(Name: String):
-	data.Type = Name
-	print("new race name: " + str(Name))
 
-func UpdateCardData(Data: Card):
+func NewRaceName(RaceName: String, VarName: String):
+	# new
+	data.Variables[VarName] = RaceName
+	
+	# legacy
+	data.Type = RaceName
+
+
+func UpdateCardData(Data: String, VarName: String):
+	# new
+	data.Variables[VarName] = Data
+	
+	# legacy
 	data.CardNameORToken = Data
-	print("New Card")
+
 
 func SetPolygon():
 	var NewPolygon: PackedVector2Array = []

@@ -12,5 +12,5 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	return data
 
 
-func _can_drop_data(_at_position:Vector2, data:Variant) -> bool:
+func _can_drop_data(_at_position:Vector2, _data:Variant) -> bool:
 	return true

@@ -16,6 +16,7 @@ func SetText(Text: String):
 	$Label.text = Text + ": "
 	new_option_chosen(int(Text))
 
+
 func NumberOptions(StartNum: int, StopNum: int):
 	if StartNum <= StopNum:
 		var Iterator = StartNum
@@ -26,7 +27,7 @@ func NumberOptions(StartNum: int, StopNum: int):
 
 func new_option_chosen(Option: int) -> void:
 	if Handler != null:
-		Handler.NewOptionData(Option)
+		Handler.NewOptionData(Option, OptionName)
 
 
 func _on_amount_item_selected(index: int) -> void:

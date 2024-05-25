@@ -13,6 +13,8 @@ func _init() -> void:
 
 func ConvertToJSON() -> Dictionary:
 	var Data = {}
-	Data["Health"] = Health
-	Data["AttackDamage"] = AttackDamage
+	Data["Command"] = Command
+	Data[Command] = {}
+	Data[Command]["Health"] = Health
+	Data[Command]["AttackDamage"] = AttackDamage
 	return Data

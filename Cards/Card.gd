@@ -36,67 +36,6 @@ func _init(I_Name: String) -> void:
 	CardType = CardTypes.Unit
 
 
-func LoadCardDict(Data: Dictionary) -> void:
-	print("Loaded: " + str(Data))
-	
-	Name = Data["Name"]
-	ClassName = Data["Class"]
-	Description = Data["Description"]
-	
-	if Data.has("Type"):
-		Type = Data["Type"]
-	EssenceCost = Data["EssenceCost"]
-	if Data.has("Health"):
-		Health = Data["Health"]
-	if Data.has("AttackDamage"):
-		AttackDamage = Data["AttackDamage"]
-	
-	for EffectForBerserker in Global.BerserkerEffectList:
-		PermissibleEffects.append(EffectForBerserker.Command)
-	print(Global.BerserkerEffectList)
-	if Data["CardType"] == "Unit":
-		CardType = Card.CardTypes.Unit
-		for EffectForUnit in Global.GeneralEffectList:
-			PermissibleEffects.append(EffectForUnit.Command)
-		# loading the effects 
-		if Data.has("End Of Turn"):
-			if len(Data["End Of Turn"]) != 0:
-				for EndOfTurn: Dictionary in Data["End Of Turn"]:
-					EndOfTurnTrigger.append(Global.EffectFromDict(EndOfTurn))
-		if Data.has("War Cry"):
-			if len(Data["War Cry"]) != 0:
-				for WarCryDict: Dictionary in Data["War Cry"]:
-					WarCryTrigger.append(Global.EffectFromDict(WarCryDict))
-		if Data.has("Upon Death"):
-			if len(Data["Upon Death"]) != 0:
-				for UponDeathEffect: Dictionary in Data["Upon Death"]:
-					UponDeathTrigger.append(Global.EffectFromDict(UponDeathEffect))
-		if Data.has("While Alive"):
-			if len(Data["While Alive"]) != 0:
-				for WhileAlive: Dictionary in Data["While Alive"]:
-					WhileAliveTrigger.append(Global.EffectFromDict(WhileAlive))
-		if Data.has("Start Of Opponent Turn"):
-			if len(Data["Start Of Opponent Turn"]) != 0:
-				for StartOfOppTurn: Dictionary in Data["Start Of Opponent Turn"]:
-					StartOppTrigger.append(Global.EffectFromDict(StartOfOppTurn))
-	elif Data["CardType"] == "Spell":
-		for EffectForUnit in Global.GeneralEffectList:
-			PermissibleEffects. append(EffectForUnit.Command)
-		for EffectForUnit in Global.TargetEffectList:
-			PermissibleEffects. append(EffectForUnit.Command)
-		CardType = Card.CardTypes.Spell
-		# loading the effects 
-		if Data.has("Effects"):
-			if len(Data["Effects"]) != 0:
-				for EffectDict: Dictionary in Data["Effects"]:
-					Effects.append(Global.EffectFromDict(EffectDict))
-	else:
-		CardType = Card.CardTypes.Nothing
-	if JSON.stringify(self.ConvertToJSON()) != JSON.stringify(Data):
-		push_error("loading change the card data, something is wrong")
-		print("Error: " + str(self.ConvertToJSON()) + "  Before: " + str(Data))
-
-
 func ConvertToJSON() -> Dictionary:
 	var Data = {}
 	Data["Name"] = Name

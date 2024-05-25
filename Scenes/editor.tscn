@@ -316,7 +316,6 @@ text = "Save"
 [connection signal="text_changed" from="ScrollContainer/General/Description/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="item_selected" from="ScrollContainer/General/EssenceCost/EssenceCost" to="." method="_on_essence_cost_item_selected"]
 [connection signal="NewRaceName" from="ScrollContainer/General/EmptyRace" to="." method="_on_empty_race_new_race_name"]
-[connection signal="NewEffectData" from="ScrollContainer/General/SpellContainer/MarginContainer/EffectSpace" to="." method="_on_effect_space_new_effect_data"]
 [connection signal="item_selected" from="ScrollContainer/General/UnitContainer/HBoxContainer/HealthOption" to="." method="_on_health_option_item_selected"]
 [connection signal="item_selected" from="ScrollContainer/General/UnitContainer/HBoxContainer2/AttackDamageOption" to="." method="_on_attack_damage_option_item_selected"]
 [connection signal="NewEffectData" from="ScrollContainer/General/UnitContainer/MarginContainer/EndOfTurnSpace" to="." method="_on_end_of_turn_space_new_effect_data"]

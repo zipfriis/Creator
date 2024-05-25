@@ -21,23 +21,10 @@ func LoadClassDict(Data: Dictionary):
 	var ToekenList: Array[Card] = []
 	if Data["Cards"]:
 		for CardOBJ in Data['Cards']:
-			var NewCard: Card
-			if CardOBJ.has("CardName"):
-				NewCard = Card.new(CardOBJ['CardName'])
-			else:
-				NewCard = Card.new(CardOBJ['Name'])
-			NewCard.LoadCardDict(CardOBJ)
-			CardList.append(NewCard)
+			CardList.append(Global.CardFromDict(CardOBJ))
 	if Data["Tokens"]:
 		for CardOBJ in Data['Tokens']:
-			print(CardOBJ)
-			var NewCard: Card
-			if CardOBJ.has("TokenName"):
-				NewCard = Card.new(CardOBJ['TokenName'])
-			else:
-				NewCard = Card.new(CardOBJ['Name'])
-			NewCard.LoadCardDict(CardOBJ)
-			ToekenList.append(NewCard)
+			ToekenList.append(Global.CardFromDict(CardOBJ))
 	Cards = CardList
 	Tokens = ToekenList
 

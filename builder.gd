@@ -117,12 +117,18 @@ func _on_import_pressed() -> void:
 		ImporterOpen = false
 
 
+# loading of the import text... 
 func _on_load_pressed() -> void:
 	var Content: String = $Import/VBoxContainer/MarginContainer/TextEdit.text
 	var JSONDict: Dictionary
 	# Parse the JSON string
 	JSONDict = JSON.parse_string(Content)
 	var NewClassList: Array[Class] = []
+	Global.JSON_Save = JSONDict
+	Global.Save()
+	return
+	
+	# OLD IDK
 	for ClassThing in JSONDict["Classes"]:
 		if ClassThing.has("Name"):
 			print("Loading Class: " + str(ClassThing["Name"]))
@@ -148,10 +154,13 @@ func _on_copy_pressed() -> void:
 
 
 func _on_editor_update_card_data(Data: Card) -> void:
+	Data = Global.CardFromDict(Data.ConvertToJSON())
 	print("Editor Save: " + str(Data.ConvertToJSON()))
 	if Data != null:
 		Global.SaveCard(Data)
-		#LoadClass(Global.GetClassByName(Data.ClassName))
+		for CardObj in $BuildSurface/HBoxContainer/VBoxContainer/Cards/Cards/ScrollContainer/Cards.get_children():
+			if CardObj.data.Name == Data.Name:
+				CardObj.data = Data
 	else:
 		push_error("The card is not valid")
 

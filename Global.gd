@@ -2,6 +2,8 @@ extends Node
 
 signal ClassHasLoaded
 
+@export var JSON_Save: Dictionary = {}
+
 @export var Type_Record: Array[String]
 @export var Classes: Array[Class]
 var ClassLoaded: bool
@@ -23,6 +25,24 @@ func LoadTypeRecord(List: Array[String]):
 	Type_Record = List
 	Save()
 
+func GetCardByName(CardName: String) -> Card:
+	for ClassThing: Dictionary in JSON_Save["Classes"]:
+		var j = 0
+		for CardINClass in ClassThing["Cards"]:
+			if CardINClass["Name"] == CardName:
+				var NewCard = CardFromDict(CardINClass)
+				return NewCard
+			j = j + 1
+		j = 0
+		for CardINClass in ClassThing["Tokens"]:
+			if CardINClass["Name"] == CardName:
+				var NewCard = CardFromDict(CardINClass)
+				NewCard.Token = true
+				return NewCard
+			j = j + 1
+	return null
+
+
 func GetClassByName(Name: String) -> Class:
 	LoadSave()
 	for ClassObj: Class in Classes:
@@ -39,37 +59,36 @@ func GetClasses() -> Array[Class]:
 
 
 func Save():
-	var Data: Dictionary = {}
-	Data["Classes"] = [] 
-	for ClassObj: Class in Classes:
-		Data["Classes"].append(ClassObj.ConvertToJSON())
-	Data["Type_Record"] = Type_Record
 	var file = FileAccess.open("user://Config.save", FileAccess.WRITE)
-	file.store_string(JSON.stringify(Data))
+	file.store_string(JSON.stringify(JSON_Save))
 	file.close()
 
 
 func SaveCard(Data: Card):
-	print("Saved Class Old:          " + JSON.stringify(Classes[0].ConvertToJSON()))
-	var i = 0 
-	for ClassThing: Class in Global.Classes:
-		if Data.ClassName == ClassThing.Name:
-			var j = 0 
-			for CardINClass in ClassThing.Cards:
-				if CardINClass.Name == Data.Name:
-					ClassThing.Cards[j] = Data
+	print("Pre Save TO Disk: " + str(Data.ConvertToJSON()))
+	var i = 0
+	for ClassThing: Dictionary in JSON_Save["Classes"]:
+		if ClassThing["Name"] == Data.ClassName:
+			var j = 0
+			for CardINClass in ClassThing["Cards"]:
+				if CardINClass["Name"] == Data.Name:
+					ClassThing["Cards"][j] = Data.ConvertToJSON()
 				j = j + 1
-			Classes[i] = ClassThing
+			j = 0
+			for CardINClass in ClassThing["Tokens"]:
+				if CardINClass["Name"] == Data.Name:
+					ClassThing["Tokens"][j] = Data.ConvertToJSON()
+				j = j + 1
+			JSON_Save["Classes"][i] = ClassThing
 		i = i + 1
-	print("Saved Class New :        " + JSON.stringify(Classes[0].ConvertToJSON()))
+	print("Pre Save TO Disk After: " + str(JSON_Save["Classes"]))
 	Save()
-	print("Saved Class:        " + JSON.stringify(Classes[0].ConvertToJSON()))
-
 
 # gets to user saved file
 func LoadSave():
 	if FileAccess.file_exists("user://Config.save"):
 		var data = JSON.parse_string(FileAccess.get_file_as_string("user://Config.save"))
+		JSON_Save = data
 		if typeof(data) == TYPE_DICTIONARY:
 			print("Raw Data: " + str(data))
 			for ClassDict: Dictionary in data["Classes"]:
@@ -215,6 +234,14 @@ func EffectFromDict(Contructer: Dictionary) -> Effect:
 				var NewEffect = KillRandomEnemies.new()
 				NewEffect.Amount = Contructer["Kill Random Enemie(s)"]["Amount"]
 				return NewEffect
+			"Summon":
+				var NewEffect = Summon.new()
+				if Contructer["Summon"].has("Amount"):
+					NewEffect.Amount = Contructer["Summon"]["Amount"]
+				if Contructer["Summon"].has("CardNameORToken"):
+					NewEffect.CardNameORToken = Contructer["Summon"]["CardNameORToken"]
+				return NewEffect
+			
 			# Berserker Class effects
 			"Nordic Gods":
 				var NewEffect = NordicGods.new(Global.GeneralEffectList)

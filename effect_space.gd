@@ -2,6 +2,7 @@ extends MarginContainer
 
 signal NewEffectData(Data: Array[Effect])
 
+var VariableName: String
 var EffectAmount: int = 0
 var LimitEffectAmount: int = -1 # Should at least have a limit of 1, to warent its use.
 var EffectList: Array[Effect] = []
@@ -10,7 +11,12 @@ var Handler: Node
 var Data: Array[Dictionary]
 
 
-func Clear():
+func SetHandler(handler: Node, VarName: String):
+	Handler = handler
+	VariableName = VarName
+
+
+func Clear() -> void:
 	for ChildEffect in $VBoxContainer/Effects.get_children():
 		$VBoxContainer/Effects.remove_child(ChildEffect)
 
@@ -42,7 +48,7 @@ func ReloadEffectList(IgnoreNodes: Array[Node]) -> void:
 	print("New effect list: " + str(Data))
 	emit_signal("NewEffectData", EffectList)
 	if Handler != null:
-		Handler.NewEffectData(EffectList)
+		Handler.NewEffectData(EffectList, VariableName)
 
 func _on_resized() -> void:
 	SetPolygon($VBoxContainer/EmptySpace, $VBoxContainer/EmptySpace/Polygon2D)

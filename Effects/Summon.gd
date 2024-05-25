@@ -2,7 +2,7 @@ extends Effect
 
 class_name Summon
 
-@export var CardNameORToken: Card = null
+@export var CardNameORToken: String
 @export var Amount: int
 
 func _init() -> void:

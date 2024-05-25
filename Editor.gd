@@ -35,16 +35,16 @@ func ResetValues():
 	$ScrollContainer/General/UnitContainer/MarginContainer5/StartOppSpace.Clear()
 
 
-func LoadCardData(Data: Card):
-	var JsonCard: Dictionary = Data.ConvertToJSON()
-	print("LoadEditCard: " + str(Data.ConvertToJSON()))
+func LoadCardData(Data: Dictionary): # The Dict is a card object
+	var JsonCard: Dictionary = Data
+	print("LoadEditCard: " + JSON.stringify(Data))
 	
 	# Ensure any existing card data is saved and cleaned up properly
 	SaveCard(EditOfCard)
 	EditOfCard = null
 	ResetValues()  # Ensure this properly resets all necessary state
 	
-	EditOfCard = Data
+	EditOfCard = Global.CardFromDict(Data)
 	LoadEffectBoxes(EditOfCard)
 	
 	if EditOfCard.CardType == Card.CardTypes.Unit:
@@ -59,6 +59,7 @@ func LoadCardData(Data: Card):
 	LoadRace(EditOfCard)
 	LoadDescriptionAndEssence(EditOfCard)
 	RootNode.Get_Storage_Raw()
+
 
 # Helper function to load unit triggers
 func LoadUnitTriggers(CardDict: Dictionary):
@@ -156,7 +157,7 @@ func _on_back_pressed() -> void:
 
 func _on_empty_card_block_updated_card_data(Data: Card) -> void:
 	print("Load New Edit Card: " + JSON.stringify(Data.ConvertToJSON()))
-	LoadCardData(Data)
+	LoadCardData(Data.ConvertToJSON())
 
 
 func _on_new_race_pressed() -> void:
@@ -171,7 +172,8 @@ func _on_new_race_pressed() -> void:
 	RootNode.Get_Storage_Raw()
 
 
-func SaveCard(Data: Card):
+func SaveCard(Data: Card): 
+	#return # early return 
 	if Data.ClassName != "":
 		print("Saved Card: " + JSON.stringify(Data.ConvertToJSON()))
 		emit_signal("UpdateCardData", Data)

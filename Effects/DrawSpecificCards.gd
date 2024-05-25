@@ -2,7 +2,7 @@ extends Effect
 
 class_name DrawSpecificCards
 
-var CardNameORToken: Card = null
+var CardNameORToken: String = ""
 var Amount: int = 0
 
 func _init() -> void:
