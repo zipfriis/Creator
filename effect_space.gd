@@ -1,19 +1,13 @@
 extends MarginContainer
 
-signal NewEffectData(Data: Array[Effect])
+signal NewEffectData(Data: Array[Effect], VarName)
 
 var VariableName: String
 var EffectAmount: int = 0
 var LimitEffectAmount: int = -1 # Should at least have a limit of 1, to warent its use.
+var EffectOptionList: Array[String] # Commands of all effects that should be able to be placed
 var EffectList: Array[Effect] = []
-var EffectOptionList: Array[String]
-var Handler: Node
 var Data: Array[Dictionary]
-
-
-func SetHandler(handler: Node, VarName: String):
-	Handler = handler
-	VariableName = VarName
 
 
 func Clear() -> void:
@@ -36,20 +30,30 @@ func CheckEffectAmount() -> void:
 		$VBoxContainer/EmptySpace.visible = true
 
 
-func ReloadEffectList(IgnoreNodes: Array[Node]) -> void:
-	# resetting lists
-	EffectList = []
-	Data = []
-	for EffectItem in $VBoxContainer/Effects.get_children():
-		if EffectItem not in IgnoreNodes:
-			var EffectObj: Effect = EffectItem.data
-			EffectList.append(EffectObj)
-			Data.append(EffectObj.ConvertToJSON())
-	print("New effect list: " + str(Data))
-	emit_signal("NewEffectData", EffectList)
-	if Handler != null:
-		Handler.NewEffectData(EffectList, VariableName)
+func On_NewEffectChange(EffectData: Effect, EffectNode: Node):
+	EffectList[EffectNode.get_index()] = EffectData
+	Data[EffectNode.get_index()] = EffectData.ConvertToJSON()
+	print(EffectData)
+	emit_signal("NewEffectData", EffectList, VariableName)
+	
 
+
+func _on_effects_child_entered_tree(node: Node) -> void:
+	node.UpdateOfEffectData.connect(On_NewEffectChange)
+	EffectAmount = $VBoxContainer/Effects.get_child_count()
+	CheckEffectAmount()
+	emit_signal("NewEffectData", EffectList, VariableName)
+
+
+func _on_effects_child_exiting_tree(EffectNode: Node) -> void:
+	EffectAmount = $VBoxContainer/Effects.get_child_count() - 1
+	EffectList.remove_at(EffectNode.get_index())
+	Data.remove_at(EffectNode.get_index())
+	emit_signal("NewEffectData", EffectList, VariableName)
+
+
+
+# visual Shit
 func _on_resized() -> void:
 	SetPolygon($VBoxContainer/EmptySpace, $VBoxContainer/EmptySpace/Polygon2D)
 	SetPolygon($'.', $Polygon2D)
@@ -71,17 +75,5 @@ func SetPolygon(ContainerBox: Node, Polygon: Polygon2D):
 	NewPolygon.append(Vector2(15,Box.size.y))
 	NewPolygon.append(Vector2(0,Box.size.y))
 	Polygon.polygon = NewPolygon
-
-
-func _on_effects_child_entered_tree(_node: Node) -> void:
-	EffectAmount = $VBoxContainer/Effects.get_child_count()
-	CheckEffectAmount()
-	ReloadEffectList([])
-
-
-func _on_effects_child_exiting_tree(node: Node) -> void:
-	EffectAmount = $VBoxContainer/Effects.get_child_count() - 1
-	CheckEffectAmount()
-	ReloadEffectList([node])
 
 

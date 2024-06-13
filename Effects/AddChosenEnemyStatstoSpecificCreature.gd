@@ -9,8 +9,3 @@ func _init() -> void:
 	Command = "Add Chosen Enemy Stats to Specific Creature" 
 	RequiredVars = ["CardNameORToken"]
 	VarsTypes = [ETypes.Cards]
-
-func ConvertToJSON() -> Dictionary:
-	var Data = {}
-	Data["CardNameORToken"] = CardNameORToken
-	return Data

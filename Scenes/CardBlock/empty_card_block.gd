@@ -1,10 +1,9 @@
 extends Control
 
-signal UpdatedCardData(Data: Card)
+signal UpdatedCardData(Data: Card, VarName: String)
 
 # managing of the godot node state
 var BlockType: String = "CardBlock"
-var Handler: Node
 var hover: bool
 var VarName: String = "" # Name if dict key name
 
@@ -27,6 +26,15 @@ func _process(_delta: float) -> void:
 			$CardBlock/HBoxContainer/Edit.visible = false
 
 
+func LoadCardByName(NameOfCard):
+	print("Loaded Card Name: " + str(NameOfCard))
+	if NameOfCard != null:
+		if NameOfCard != "":
+			var CardObj: Card = Global.GetCardByName(NameOfCard)
+			if CardObj != null:
+				LoadName(CardObj.Name, CardObj.Token)
+
+
 func LoadName(NameOfCard: String, IsToken: bool) -> void:
 	# rendering changes
 	%CardName.text = NameOfCard
@@ -38,17 +46,12 @@ func LoadName(NameOfCard: String, IsToken: bool) -> void:
 func UpdateData(Data: Card):
 	# loading data
 	data = Data
-	
 	# rendering changes
 	%CardName.text = Data.Name
 	SetSize()
 	if Data.Token == true:
 		$CardBlock/Card.color = Color.DARK_GRAY
-	
-	# sending change event to parent nodes. 
-	emit_signal("UpdatedCardData", Data)
-	if Handler != null:
-		Handler.UpdateCardData(Data.Name, VarName)
+	emit_signal("UpdatedCardData", Data, VarName)
 
 
 func AddText(text: String):

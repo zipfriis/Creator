@@ -46,10 +46,12 @@ func LoadCardData(Data: Dictionary): # The Dict is a card object
 	
 	EditOfCard = Global.CardFromDict(Data)
 	LoadEffectBoxes(EditOfCard)
+	$ScrollContainer/General/UnitContainer/HBoxContainer3/Block.disabled = false
 	
 	if EditOfCard.CardType == Card.CardTypes.Unit:
 		ShowUnitDetails()
 		LoadUnitTriggers(JsonCard)
+		$ScrollContainer/General/UnitContainer/HBoxContainer3/Block.button_pressed = EditOfCard.Block
 	elif EditOfCard.CardType == Card.CardTypes.Spell:
 		ShowSpellDetails()
 		LoadSpellEffects(EditOfCard)
@@ -155,7 +157,7 @@ func _on_back_pressed() -> void:
 
 
 
-func _on_empty_card_block_updated_card_data(Data: Card) -> void:
+func _on_empty_card_block_updated_card_data(Data: Card, _KeyName) -> void:
 	print("Load New Edit Card: " + JSON.stringify(Data.ConvertToJSON()))
 	LoadCardData(Data.ConvertToJSON())
 
@@ -179,34 +181,34 @@ func SaveCard(Data: Card):
 		emit_signal("UpdateCardData", Data)
 
 
-func _on_empty_race_new_race_name(Race: String) -> void:
+func _on_empty_race_new_race_name(Race: String, _VarName) -> void:
 	EditOfCard.Type = Race
 
-func _on_effect_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_effect_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.Effects = Data
 
 
-func _on_end_of_turn_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_end_of_turn_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.EndOfTurnTrigger = Data
 
 
-func _on_war_cry_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_war_cry_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.WarCryTrigger = Data
 
 
-func _on_while_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_while_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.WhileAliveTrigger = Data
 
 
-func _on_upon_death_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_upon_death_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.UponDeathTrigger = Data
 
-func _on_start_opp_space_new_effect_data(Data: Array[Effect]) -> void:
+func _on_start_opp_space_new_effect_data(Data: Array[Effect], _VarName) -> void:
 	if EditOfCard != null:
 		EditOfCard.StartOppTrigger = Data
 
@@ -234,3 +236,7 @@ func _on_attack_damage_option_item_selected(index: int) -> void:
 func _on_set_card_pressed() -> void:
 	var NewCard = Card.new($'ScrollContainer/General/Card selection/CardObjContainer/LineEdit'.text)
 	
+
+
+func _on_block_toggled(toggled_on: bool) -> void:
+	EditOfCard.Block = toggled_on

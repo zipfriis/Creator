@@ -9,10 +9,3 @@ func _init() -> void:
 	Command =  "Kill Random Enemie(s)" 
 	RequiredVars = ["Amount"]
 	VarsTypes = [ETypes.Amount]
-
-func ConvertToJSON() -> Dictionary:
-	var Data = {}
-	Data["Command"] = Command
-	Data[Command] = {}  # Initialize as a dictionary
-	Data[Command]["Amount"] = Amount
-	return Data

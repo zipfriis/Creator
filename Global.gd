@@ -8,7 +8,8 @@ signal ClassHasLoaded
 @export var Classes: Array[Class]
 var ClassLoaded: bool
 
-@export var GeneralEffectList: Array[Effect] = [AllEnemyDebuff.new(), KillRandomEnemies.new(), OccupyBattleField.new(), ClearBoard.new(), DrawSpecificCards.new(), DrawCardByType.new(), AddCardToHand.new(), AddCardToDeck.new(), ReturnToHand.new(), AllFriendlyBuff.new(), SpecificCreatureBuff.new(), PermaAllFriendlyBuff.new(), DrawCards.new(), Summon.new(), ChooseCardByType.new(), FriendlyCreaturesAOEDamage.new(), EnemyCreaturesAOEDamage.new(), GiveSummonedCreatureStats.new(), AddChosenEnemyStatstoSpecificCreature.new(), KillCenteredEnemies.new()]
+var MetaGeneralEffectList: Array[Effect] = [AllEnemyDebuff.new(), KillRandomEnemies.new(), OccupyBattleField.new(), ClearBoard.new(), DrawSpecificCards.new(), DrawCardByType.new(), AddCardToHand.new(), AddCardToDeck.new(), ReturnToHand.new(), LookAtTopOfDeck.new(),  AllFriendlyBuff.new(), SpecificCreatureBuff.new(), PermaAllFriendlyBuff.new(), DrawCards.new(), Summon.new(), SummonForOpponent.new(), ChooseCardByType.new(), FriendlyCreaturesAOEDamage.new(), EnemyCreaturesAOEDamage.new(), GiveSummonedCreatureStats.new(), AddChosenEnemyStatstoSpecificCreature.new(), KillCenteredEnemies.new()]
+@export var GeneralEffectList: Array[Effect] = [AllEnemyDebuff.new(), KillRandomEnemies.new(), OccupyBattleField.new(), ClearBoard.new(), DrawSpecificCards.new(), DrawCardByType.new(), IfBoardControl.new(MetaGeneralEffectList), RevealOpponentsCards.new(), AddCardToHand.new(), AddCardToDeck.new(), ReturnToHand.new(), LookAtTopOfDeck.new(),  AllFriendlyBuff.new(), SpecificCreatureBuff.new(), PermaAllFriendlyBuff.new(), DrawCards.new(), Summon.new(), SummonForOpponent.new(), ChooseCardByType.new(), FriendlyCreaturesAOEDamage.new(), EnemyCreaturesAOEDamage.new(), GiveSummonedCreatureStats.new(), AddChosenEnemyStatstoSpecificCreature.new(), KillCenteredEnemies.new()]
 @export var TargetEffectList: Array[Effect] = [DirectDamage.new(), IfDirectDamageKilled.new(GeneralEffectList)]
 @export var BerserkerEffectList: Array[Effect] = [NordicGods.new(GeneralEffectList), ForcesOfChaos.new(GeneralEffectList)]
 
@@ -115,6 +116,8 @@ func GetRaw() -> String:
 func CardFromDict(Contructor: Dictionary) -> Card:
 	var NewCard: Card = Card.new("") #new card object
 	# it will return null, if dict dont have a name for card
+	if Contructor.has("Block"):
+		NewCard.Block = Contructor["Block"]
 	if Contructor.has("Name"):
 		if Contructor["Name"] != "":
 			NewCard.Name = Contructor["Name"]
@@ -160,11 +163,11 @@ func CardFromDict(Contructor: Dictionary) -> Card:
 		if Contructor.has("Upon Death"):
 			if len(Contructor["Upon Death"]) != 0:
 				for UponDeathEffect: Dictionary in Contructor["Upon Death"]:
-					NewCard.UponDeathTrigger.append(Global.EffectFromDict(UponDeathEffect))
+					NewCard.UponDeathTrigger.append(EffectFromDict(UponDeathEffect))
 		if Contructor.has("While Alive"):
 			if len(Contructor["While Alive"]) != 0:
 				for WhileAlive: Dictionary in Contructor["While Alive"]:
-					NewCard.WhileAliveTrigger.append(Global.EffectFromDict(WhileAlive))
+					NewCard.WhileAliveTrigger.append(EffectFromDict(WhileAlive))
 		if Contructor.has("Start Of Opponent Turn"):
 			if len(Contructor["Start Of Opponent Turn"]) != 0:
 				for StartOfOppTurn: Dictionary in Contructor["Start Of Opponent Turn"]:
@@ -181,9 +184,9 @@ func CardFromDict(Contructor: Dictionary) -> Card:
 					NewCard.Effects.append(Global.EffectFromDict(EffectDict))
 	else:
 		NewCard.CardType = Card.CardTypes.Nothing
-	if JSON.stringify(NewCard.ConvertToJSON()) != JSON.stringify(Contructor):
+	if str(NewCard) != JSON.stringify(Contructor):
 		push_error("loading change the card data, something is wrong")
-		print("Error: " + str(NewCard.ConvertToJSON()) + "  Before: " + str(Contructor))
+		print("Error: " + str(NewCard) + "  Before: " + JSON.stringify(Contructor))
 	return NewCard
 
 
@@ -200,48 +203,63 @@ func EffectFromDict(Contructer: Dictionary) -> Effect:
 				return AddChosenEnemyStatstoSpecificCreature.new()
 			"All Friendly Buff":
 				var NewEffect = AllFriendlyBuff.new()
-				NewEffect.AttackDamage = Contructer["All Friendly Buff"]["AttackDamage"]
-				NewEffect.Health = Contructer["All Friendly Buff"]["Health"]
+				NewEffect.Variables["AttackDamage"] = Contructer["All Friendly Buff"]["AttackDamage"]
+				NewEffect.Variables["Health"] = Contructer["All Friendly Buff"]["Health"]
 				return NewEffect
 			"All Enemy Debuff":
 				var NewEffect = AllEnemyDebuff.new()
-				NewEffect.AttackDamage = Contructer["All Enemy Debuff"]["AttackDamage"]
-				NewEffect.Health = Contructer["All Enemy Debuff"]["Health"]
+				NewEffect.Variables["AttackDamage"] = Contructer["All Enemy Debuff"]["AttackDamage"]
+				NewEffect.Variables["Health"] = Contructer["All Enemy Debuff"]["Health"]
 				return NewEffect
 			"Choose Card By Type":
-				return ChooseCardByType.new()
+				var NewEffect = ChooseCardByType.new()
+				NewEffect.Variables["Race"] = Contructer["Choose Card By Type"]["Race"]
+				NewEffect.Variables["Amount"] = Contructer["Choose Card By Type"]["Amount"]
+				return NewEffect
 			"Clear Board":
 				return ClearBoard.new()
 			"Direct Damage":
 				var NewEffect = DirectDamage.new()
-				NewEffect.Amount = Contructer["Direct Damage"]["Amount"]
+				NewEffect.Variables["Amount"] = Contructer["Direct Damage"]["Amount"]
 				return NewEffect
 			"Draw Card By Type":
 				var NewEffect =  DrawCardByType.new()
-				NewEffect.Type = Contructer["Draw Card By Type"]["Type"]
+				NewEffect.Variables["Type"] = Contructer["Draw Card By Type"]["Type"]
 				return NewEffect
 			"Draw Card(s)":
-				return DrawCards.new()
+				var NewEffect =  DrawCards.new()
+				NewEffect.Variables["Amount"] = Contructer["Draw Card(s)"]["Amount"]
+				return NewEffect
 			"Draw Specific Card(s)":
 				var NewEffect = DrawSpecificCards.new()
-				NewEffect.Amount = Contructer["Draw Specific Card(s)"]["Amount"]
-				return NewEffect
+				NewEffect.Variables["Amount"] = Contructer["Draw Specific Card(s)"]["Amount"]
 			"Eat Discardpile":
 				return EatDiscardpile.new()
 			"Occupy BattleField":
 				return OccupyBattleField.new()
 			"Kill Random Enemie(s)":
 				var NewEffect = KillRandomEnemies.new()
-				NewEffect.Amount = Contructer["Kill Random Enemie(s)"]["Amount"]
+				NewEffect.Variables["Amount"] = Contructer["Kill Random Enemie(s)"]["Amount"]
 				return NewEffect
 			"Summon":
 				var NewEffect = Summon.new()
 				if Contructer["Summon"].has("Amount"):
-					NewEffect.Amount = Contructer["Summon"]["Amount"]
+					NewEffect.Variables["Amount"] = Contructer["Summon"]["Amount"]
 				if Contructer["Summon"].has("CardNameORToken"):
-					NewEffect.CardNameORToken = Contructer["Summon"]["CardNameORToken"]
+					NewEffect.Variables["CardNameORToken"] = Contructer["Summon"]["CardNameORToken"]
 				return NewEffect
-			
+			"Summon For Opponent":
+				var NewEffect = SummonForOpponent.new()
+				NewEffect.Variables["Amount"] = Contructer["Summon For Opponent"]["Amount"]
+				NewEffect.Variables["CardNameORToken"] = Contructer["Summon For Opponent"]["CardNameORToken"]
+				return NewEffect
+			"If Board Control":
+				print("If Control: " + str(Contructer))
+				var NewEffect = IfBoardControl.new(MetaGeneralEffectList)
+				NewEffect.Variables["CardNameORToken"] = Contructer["If Board Control"]["CardNameORToken"]
+				for ChildEffect: Dictionary in Contructer["If Board Control"]["Effects"]:
+					NewEffect.Effects.append(EffectFromDict(ChildEffect))
+				return NewEffect
 			# Berserker Class effects
 			"Nordic Gods":
 				var NewEffect = NordicGods.new(Global.GeneralEffectList)
@@ -249,10 +267,8 @@ func EffectFromDict(Contructer: Dictionary) -> Effect:
 					NewEffect.Effects.append(EffectFromDict(ChildEffect))
 				return NewEffect
 			"Forces Of Chaos":
-				print("Forces Thing: " + str(Contructer))
 				var NewEffect = ForcesOfChaos.new(Global.GeneralEffectList)
 				for ChildEffect: Dictionary in Contructer["Forces Of Chaos"]["Effects"]:
 					NewEffect.Effects.append(EffectFromDict(ChildEffect))
-				print("Forces Thing: " + str(NewEffect.ConvertToJSON()))
 				return NewEffect
 	return null

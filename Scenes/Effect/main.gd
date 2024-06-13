@@ -1,5 +1,7 @@
 extends MarginContainer
 
+signal UpdateOfEffectData(Data: Effect, node: Node)
+
 @export var Name: String
 @export var data: Effect
 var Hover: bool
@@ -11,11 +13,6 @@ var Handler: Node
 func DataSet(Block: Node, _Data: Variant):
 	if Block.BlockType == "":
 		pass
-
-
-func RemoveFromHanlder():
-	if Handler != null:
-		Handler.RemoveEffect(self)
 
 
 func LoadEffect(effect: Effect):
@@ -30,37 +27,36 @@ func LoadEffect(effect: Effect):
 			InfoBlocks.add_child(OptionBlock)
 			OptionBlock.SetText(Var)
 			OptionBlock.NumberOptions(0, 10)
-			OptionBlock.Handler = self
-			
-			# specify all amount Etype of effects. 
-			if effect.RequiredVars[i] == "Amount":
-				OptionBlock.Select(effect.Amount)
-			elif effect.RequiredVars[i] == "Health":
-				OptionBlock.Select(effect.Health)
-			elif effect.RequiredVars[i] == "AttackDamage":
-				OptionBlock.Select(effect.AttackDamage)
-			
+			if effect.Variables.has(Var):
+				OptionBlock.Select(effect.Variables[Var])
+			OptionBlock.NewOptionSelected.connect(_On_OptionsBlockData)
 		elif effect.VarsTypes[i] == Effect.ETypes.Cards:
 			var CardBlock = load('res://Scenes/CardBlock/empty_card_block.tscn').instantiate()
 			InfoBlocks.add_child(CardBlock)
 			CardBlock.AddText("Card: ")
+			print("Loaded Card Name: " + str(effect.Variables))
 			CardBlock.VarName = effect.RequiredVars[i] # Setting the Key name
-			CardBlock.Handler = self
-			# Loading card name into the block
-			if effect.CardNameORToken != null:
-				if effect.CardNameORToken != "":
-					var CardObj: Card = Global.GetCardByName(effect.CardNameORToken)
-					if CardObj != null:
-						CardBlock.LoadName(CardObj.Name, CardObj.Token)
-				
+			if effect.Variables.has("CardNameORToken"):
+				if effect.Variables["CardNameORToken"] != "":
+					CardBlock.LoadCardByName(effect.Variables["CardNameORToken"])
+			CardBlock.UpdatedCardData.connect(_On_CardBlockData)
 		elif effect.VarsTypes[i] == Effect.ETypes.Type:
+			# only adds the raceblock instance, data gets loaded later
 			var RaceBlock = load('res://Scenes/Race/empty_race.tscn').instantiate()
 			InfoBlocks.add_child(RaceBlock)
+			RaceBlock.VarName = effect.RequiredVars[i]
+			if effect.Variables.has(Var):
+				RaceBlock.LoadRace(effect.Variables[Var])
+			RaceBlock.NewRaceName.connect(_On_RaceNameData)
 		elif effect.VarsTypes[i] == Effect.ETypes.EffectCommand:
+			
+			
 			var EffectBlock = load('res://effect_space.tscn').instantiate()
 			InfoBlocks.add_child(EffectBlock)
 			InitOfEffectBlock = EffectBlock
-			EffectBlock.SetHandler(self, effect.RequiredVars[i])
+			EffectBlock.VariableName = "Effects"
+			EffectBlock.NewEffectData.connect(On_NewEffectData)
+		
 		elif effect.VarsTypes[i] == Effect.ETypes.EffectOption:
 			if InitOfEffectBlock != null:
 				InitOfEffectBlock.EffectOptionList.append(effect.RequiredVars[i])
@@ -78,40 +74,27 @@ func LoadEffect(effect: Effect):
 				if EffectObj != null:
 					InitOfEffectBlock.AddNewEffectBlock(EffectObj)
 
+func _On_CardBlockData(Data: Card, VarName: String):
+	data.Variables[VarName] = Data.Name
+	print(data.Variables)
+	emit_signal("UpdateOfEffectData", data, self)
 
-func NewEffectData(Data: Array[Effect], VarName: String):
-	# new
-	data.Variables[VarName] = Data
-	
-	data.Effects = Data
+func _On_OptionsBlockData(OptionName: String, Option: String):
+	data.Variables[OptionName] = int(Option)
+	print("OptionBlockData: " + str(data.Variables))
+	emit_signal("UpdateOfEffectData", data, self)
 
-func NewOptionData(Option: int, VarName: String):
-	# new
-	data.Variables[VarName] = Option
-	
-	# legacy
-	if VarName == "Amount":
-		data.Amount = Option
-	elif VarName == "Health":
-		data.Health = Option
-	elif VarName == "AttackDamage":
-		data.AttackDamage = Option
-
-
-func NewRaceName(RaceName: String, VarName: String):
-	# new
+func _On_RaceNameData(RaceName: String, VarName: String):
 	data.Variables[VarName] = RaceName
-	
-	# legacy
-	data.Type = RaceName
+	print("RaceNameData: " + str(data.Variables))
+	emit_signal("UpdateOfEffectData", data, self)
 
-
-func UpdateCardData(Data: String, VarName: String):
-	# new
+func On_NewEffectData(Data: Array[Effect], VarName: String):
 	data.Variables[VarName] = Data
+	data.Effects = Data
+	print("NewEffectData: " + str(data.Variables))
+	emit_signal("UpdateOfEffectData", data, self)
 	
-	# legacy
-	data.CardNameORToken = Data
 
 
 func SetPolygon():

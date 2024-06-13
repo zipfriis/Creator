@@ -11,9 +11,3 @@ func _init() -> void:
 	Command = "Direct Damage" 
 	RequiredVars = ["Amount", "Command", "If Direct Damage Killed"]
 	VarsTypes = [ETypes.Amount, ETypes.EffectCommand, ETypes.EffectOption]
-
-func ConvertToJSON() -> Dictionary:
-	var Data = {}
-	Data["Command"] = Command
-	Data["Command"]["Amount"] = Amount
-	return Data

@@ -1,11 +1,8 @@
 extends Effect
 
-class_name DrawCards
-
-var Amount: int = 0
+class_name RevealOpponentsCards
 
 func _init() -> void:
-	# inherented from Effect
-	Command = "Draw Card(s)" 
+	Command = "Reveal Opponents Card(s)"
 	RequiredVars = ["Amount"]
 	VarsTypes = [ETypes.Amount]

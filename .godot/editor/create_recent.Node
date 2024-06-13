@@ -1,7 +1,8 @@
-EffectSpace
-OptionButton
+CheckBox
+CheckButton
 Label
 HBoxContainer
+OptionButton
 MarginContainer
 Control
 Button
@@ -12,4 +13,3 @@ ScrollContainer
 PanelContainer
 Polygon2D
 TextEdit
-PopupPanel

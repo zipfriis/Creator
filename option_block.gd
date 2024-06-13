@@ -1,7 +1,8 @@
 extends HBoxContainer
 
+signal NewOptionSelected(OptionName: String, Option: String)
+
 var BlockType: String
-var Handler: Node 
 var OptionName: String
 
 
@@ -11,10 +12,7 @@ func Select(Value: int):
 
 func SetText(Text: String):
 	OptionName = Text
-	if Handler != null:
-		Handler.DataSet(self, Text)
 	$Label.text = Text + ": "
-	new_option_chosen(int(Text))
 
 
 func NumberOptions(StartNum: int, StopNum: int):
@@ -25,11 +23,6 @@ func NumberOptions(StartNum: int, StopNum: int):
 			Iterator = Iterator + 1
 
 
-func new_option_chosen(Option: int) -> void:
-	if Handler != null:
-		Handler.NewOptionData(Option, OptionName)
-
-
 func _on_amount_item_selected(index: int) -> void:
-	if Handler != null:
-		Handler.NewOptionData(int($Amount.get_item_text(index)), OptionName)
+	emit_signal("NewOptionSelected", OptionName, str($Amount.get_item_text(index)))
+

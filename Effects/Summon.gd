@@ -11,11 +11,3 @@ func _init() -> void:
 	RequiredVars = ["CardNameORToken", "Amount"]
 	VarsTypes = [ETypes.Cards, ETypes.Amount]
 
-func ConvertToJSON() -> Dictionary:
-	var Data = {}
-	Data["Command"] = Command
-	Data[Command] = {}
-	if CardNameORToken != null:
-		Data[Command]["CardNameORToken"] = CardNameORToken
-	Data[Command]["Amount"] = Amount
-	return Data

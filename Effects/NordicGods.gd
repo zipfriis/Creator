@@ -2,7 +2,7 @@ extends Effect
 
 class_name NordicGods
 
-@export var Effects: Array[Effect]
+var Effects: Array[Effect]
 
 func _init(GeneralEffectList: Array[Effect]) -> void:
 	# inherented from Effect
@@ -12,6 +12,9 @@ func _init(GeneralEffectList: Array[Effect]) -> void:
 	for EffectOption: Effect in GeneralEffectList:
 		RequiredVars.append(EffectOption.Command)
 		VarsTypes.append(Effect.ETypes.EffectOption)
+	# making a empty list of effects
+	Variables["Effects"] = []
+
 
 func ConvertToJSON() -> Dictionary:
 	var Data = {}

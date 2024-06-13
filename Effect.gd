@@ -20,3 +20,7 @@ func ConvertToJSON() -> Dictionary:
 	if Variables != {}:
 		Dict[Command] = Variables
 	return Dict
+
+func _to_string() -> String:
+	return JSON.stringify(ConvertToJSON())
+

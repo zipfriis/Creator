@@ -15,6 +15,7 @@ enum CardTypes {Unit, Spell, Nothing}
 @export var EssenceCost: int
 @export var Health: int
 @export var AttackDamage: int
+@export var Block: bool
 
 # unit Trigger effects
 @export var EndOfTurnTrigger: Array[Effect]
@@ -36,10 +37,15 @@ func _init(I_Name: String) -> void:
 	CardType = CardTypes.Unit
 
 
+func _to_string() -> String:
+	return JSON.stringify(ConvertToJSON())
+
+
 func ConvertToJSON() -> Dictionary:
 	var Data = {}
 	Data["Name"] = Name
 	if CardType == CardTypes.Unit:
+		Data["Block"] = Block
 		Data["CardType"] = "Unit"
 		Data["End Of Turn"] = []
 		if len(EndOfTurnTrigger) != 0:
@@ -81,5 +87,4 @@ func ConvertToJSON() -> Dictionary:
 	Data["Class"] = ClassName
 	var CardString = JSON.stringify(Data)
 	Data = JSON.parse_string(CardString)
-	
 	return Data

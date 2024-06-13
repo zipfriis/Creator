@@ -1,12 +1,12 @@
 extends Effect
 
-class_name AddCardToDeck
+class_name SummonForOpponent
 
-var CardNameORToken: Card = null
-var Amount: int = 0 
+@export var CardNameORToken: String
+@export var Amount: int
 
 func _init() -> void:
 	# inherented from Effect
-	Command = "Add Card To Deck" 
+	Command = "Summon For Opponent"
 	RequiredVars = ["CardNameORToken", "Amount"]
 	VarsTypes = [ETypes.Cards, ETypes.Amount]
